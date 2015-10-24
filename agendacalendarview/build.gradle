@@ -1,4 +1,4 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
@@ -6,7 +6,6 @@ android {
     buildToolsVersion "23.0.0"
 
     defaultConfig {
-        applicationId "com.github.tibolte.sample"
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
@@ -18,33 +17,31 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-    //avoid duplicate files during packaging of APK
-    packagingOptions {
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'LICENSE.txt'
+    sourceSets {
+        main {
+            assets.srcDirs = ['assets']
+        }
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
-configurations {
-    compile.exclude module: 'support-annotations'
-}
-
 dependencies {
-    compile project(':agendacalendarview')
-
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // Google libraries
     compile 'com.android.support:appcompat-v7:23.1.0'
+    compile 'com.google.android.gms:play-services-location:7.5.0'
+    compile 'com.android.support:recyclerview-v7:+'
+    compile 'com.google.collections:google-collections:1.0-rc2'
+    compile 'com.android.support:design:23.1.0'
 
-    // Other libraries
-    compile 'com.jakewharton:butterknife:7.0.0'
+    // other libraries
+    compile 'se.emilsjolander:stickylistheaders:2.5.2'
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'pl.charmas.android:android-reactive-location:0.6@aar'
+    compile 'io.reactivex:rxjava:1.0.+'
+    compile 'io.reactivex:rxandroid:0.25.0'
 }
