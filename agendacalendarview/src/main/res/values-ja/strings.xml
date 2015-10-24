@@ -1,0 +1,13 @@
+<resources>
+    <!-- Agenda -->
+    <string name="today">今日</string>
+    <string name="tomorrow">明日</string>
+    <string name="agenda_event_day_duration">日</string>
+    <string name="agenda_event_all_day">一日</string>
+    <string name="agenda_event_no_events">イベントはありません</string>
+
+    <!-- Weather -->
+    <string name="morning">朝</string>
+    <string name="afternoon">午後</string>
+    <string name="evening">夜</string>
+</resources>

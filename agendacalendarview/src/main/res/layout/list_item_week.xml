@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/week_days_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <include layout="@layout/view_day_cell" />
+
+        <include layout="@layout/view_day_cell" />
+
+        <include layout="@layout/view_day_cell" />
+
+        <include layout="@layout/view_day_cell" />
+
+        <include layout="@layout/view_day_cell" />
+
+        <include layout="@layout/view_day_cell" />
+
+        <include layout="@layout/view_day_cell" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/month_background"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/day_cell_height"
+        android:alpha="0"
+        android:background="@color/calendar_month_transparent_background"/>
+
+    <TextView
+        android:id="@+id/month_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="17dp"
+        android:alpha="0"
+        android:textColor="@android:color/black"
+        android:layout_centerInParent="true"/>
+
+</RelativeLayout>

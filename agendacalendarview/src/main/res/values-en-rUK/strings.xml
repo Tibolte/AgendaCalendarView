@@ -1,0 +1,13 @@
+<resources>
+    <!-- Agenda -->
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="agenda_event_day_duration">d</string>
+    <string name="agenda_event_all_day">All day</string>
+    <string name="agenda_event_no_events">No events</string>
+
+    <!-- Weather -->
+    <string name="morning">Morning</string>
+    <string name="afternoon">Afternoon</string>
+    <string name="evening">Evening</string>
+</resources>

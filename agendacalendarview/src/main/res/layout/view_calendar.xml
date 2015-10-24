@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Day names labels -->
+    <LinearLayout
+        android:id="@+id/cal_day_names"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/calendar_header_height"
+        android:orientation="horizontal">
+
+        <include layout="@layout/view_day_calendar_header" />
+
+        <include layout="@layout/view_day_calendar_header" />
+
+        <include layout="@layout/view_day_calendar_header" />
+
+        <include layout="@layout/view_day_calendar_header" />
+
+        <include layout="@layout/view_day_calendar_header" />
+
+        <include layout="@layout/view_day_calendar_header" />
+
+        <include layout="@layout/view_day_calendar_header" />
+
+    </LinearLayout>
+
+    <com.github.tibolte.agendacalendarview.calendar.weekslist.WeekListView
+        android:id="@+id/list_week"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="@android:color/transparent"
+        android:drawSelectorOnTop="false"
+        android:dividerHeight="1dp"
+        android:divider="@color/calendar_divider_color"
+        android:listSelector="@android:color/transparent"
+        android:overScrollMode="never"
+        android:scrollbars="none" />
+
+</merge>

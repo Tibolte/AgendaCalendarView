@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.github.tibolte.agendacalendarview.agenda.AgendaHeaderView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/calendar_past_days_bg"
+    android:orientation="vertical">
+
+    <include layout="@layout/agenda_list_header_divider" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="10dp">
+
+        <TextView
+            android:id="@+id/view_agenda_is_today"
+            style="@style/AgendaListHeaderText"/>
+
+        <TextView
+            android:id="@+id/view_agenda_label_spacer"
+            style="@style/AgendaListHeaderText"
+            android:text="\u2022" />
+
+        <TextView
+            android:id="@+id/view_agenda_label"
+            style="@style/AgendaListHeaderText" />
+
+    </LinearLayout>
+
+    <include layout="@layout/agenda_list_header_divider" />
+
+</com.github.tibolte.agendacalendarview.agenda.AgendaHeaderView>

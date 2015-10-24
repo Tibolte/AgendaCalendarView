@@ -1,11 +1,22 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:agendaCalendar="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
-    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/activity_toolbar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="@color/theme_primary_dark"/>
 
-</RelativeLayout>
+    <com.github.tibolte.agendacalendarview.AgendaCalendarView
+        android:id="@+id/agenda_calendar_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/calendar_past_days_bg"
+        agendaCalendar:calendarHeaderColor="@color/theme_primary_dark"/>
+
+</LinearLayout>

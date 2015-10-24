@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Colors for Calendar view -->
+    <color name="calendar_future_days_bg">#FFFFFF</color>
+    <color name="calendar_past_days_bg">#F5F5F5</color>
+    <color name="calendar_text_current_day">#000000</color>
+    <color name="calendar_text_selected">#FFFFFF</color>
+    <color name="calendar_text_default">#9C9CA0</color>
+    <color name="calendar_text_first_day_of_month">#FA565A</color>
+    <color name="calendar_month_transparent_background">#CCFFFFFF</color>
+    <color name="calendar_divider_color">#F3F3F3</color>
+
+    <!-- Colors for Agenda view -->
+    <color name="agenda_list_header_divider">#E4E4E4</color>
+
+    <!-- General -->
+    <color name="blue_selected">#1D87E7</color>
+    <color name="theme_primary_dark">#E64A19</color>
+    <color name="theme_primary">#FF5722</color>
+    <color name="theme_accent">#448AFF</color>
+
+    <!-- Floating action button -->
+    <color name="fab_pressed">#1F73FF</color>
+    <color name="fab_ripple">#6EA4FF</color>
+</resources>

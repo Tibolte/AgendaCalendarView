@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ColorOptionsView">
+        <attr name="calendarHeaderColor" format="color" />
+    </declare-styleable>
+    <declare-styleable name="WeatherIconView">
+        <attr name="weatherIconResource" format="string" />
+        <attr name="weatherIconSize" format="integer" />
+        <attr name="weatherIconColor" format="color" />
+    </declare-styleable>
+</resources>

@@ -1,8 +1,10 @@
 <resources>
+    <style name="AgendaCalendarTheme" parent="BaseTheme"/>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- android:textColorPrimary is the  color of the title text
+       in the Toolbar, in the Theme.AppCompat theme:  -->
+        <item name="android:textColorPrimary">@android:color/white</item>
     </style>
-
 </resources>
