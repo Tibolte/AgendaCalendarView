@@ -2,32 +2,45 @@
 <com.github.tibolte.agendacalendarview.agenda.AgendaHeaderView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/calendar_past_days_bg"
     android:orientation="vertical">
 
-    <include layout="@layout/agenda_list_header_divider" />
-
-    <LinearLayout
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginLeft="10dp">
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp">
 
-        <TextView
-            android:id="@+id/view_agenda_is_today"
-            style="@style/AgendaListHeaderText"/>
+        <View
+            android:id="@+id/view_day_circle_selected"
+            android:layout_width="@dimen/circle_day_size"
+            android:layout_height="@dimen/circle_day_size"
+            android:background="@drawable/agenda_day_circle"
+            android:visibility="invisible"/>
 
-        <TextView
-            android:id="@+id/view_agenda_label_spacer"
-            style="@style/AgendaListHeaderText"
-            android:text="\u2022" />
+        <LinearLayout
+            android:id="@+id/day_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/view_agenda_label"
-            style="@style/AgendaListHeaderText" />
+            <TextView
+                android:id="@+id/view_agenda_day_of_month"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:textSize="20dp" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/view_agenda_day_of_week"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="5dp"
+                android:textSize="10dp" />
 
-    <include layout="@layout/agenda_list_header_divider" />
+        </LinearLayout>
+
+    </FrameLayout>
 
 </com.github.tibolte.agendacalendarview.agenda.AgendaHeaderView>

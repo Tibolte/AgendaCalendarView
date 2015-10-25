@@ -159,8 +159,7 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
 
                 // Highlight the cell if this day is today
                 if (dayItem.isToday() && !dayItem.isSelected()) {
-                    txtDay.setTextColor(mContext.getResources().getColor(R.color.theme_accent));
-                    txtMonth.setTextColor(mContext.getResources().getColor(R.color.theme_accent));
+                    txtDay.setTextColor(mContext.getResources().getColor(android.R.color.black));
                     cellItem.setBackgroundColor(mContext.getResources().getColor(R.color.theme_primary));
                 }
 

@@ -257,8 +257,9 @@ public class CalendarManager {
         BusProvider.getInstance().send(new Events.EventsFetched());
         Log.d(LOG_TAG, "CalendarEventTask finished");
 
+        // TODO: remove weather part from the project
         // we finished setting up events, check for forecast now
-        ReactiveLocationProvider locationProvider = new ReactiveLocationProvider(getContext());
+        /*ReactiveLocationProvider locationProvider = new ReactiveLocationProvider(getContext());
         locationProvider.getLastKnownLocation()
                 .subscribe(location->{
                     // we have a location now, ask for forecast then
@@ -277,7 +278,7 @@ public class CalendarManager {
                                 Log.d(LOG_TAG, "Received Forecast");
                                 BusProvider.getInstance().send(new Events.ForecastFetched());
                             }, error->Log.w(LOG_TAG, "Forecast Error :" + error.getMessage()));
-                });
+                });*/
     }
 
     // endregion

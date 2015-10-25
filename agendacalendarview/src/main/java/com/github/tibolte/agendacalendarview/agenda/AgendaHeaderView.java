@@ -8,10 +8,12 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 /**
@@ -43,40 +45,29 @@ public class AgendaHeaderView extends LinearLayout {
     // region Public methods
 
     public void setDay(Calendar day) {
-        TextView txtDay = (TextView) findViewById(R.id.view_agenda_label);
-        TextView txtTodayTomorrow = (TextView) findViewById(R.id.view_agenda_is_today);
-        TextView txtSpacer = (TextView) findViewById(R.id.view_agenda_label_spacer);
+        TextView txtDayOfMonth = (TextView) findViewById(R.id.view_agenda_day_of_month);
+        TextView txtDayOfWeek = (TextView) findViewById(R.id.view_agenda_day_of_week);
+        View circleView = findViewById(R.id.view_day_circle_selected);
 
         Calendar today = CalendarManager.getInstance().getToday();
         Calendar tomorrow = Calendar.getInstance();
         tomorrow.setTime(today.getTime());
         tomorrow.add(Calendar.DATE, 1);
 
-        // Construct a day formatter without any year displayed
-        String yearLessDate = DateHelper.getYearLessLocalizedDate(day, CalendarManager.getInstance().getLocale());
+        SimpleDateFormat dayWeekFormatter = new SimpleDateFormat("E");
 
-        txtDay.setTextColor(getResources().getColor(R.color.calendar_text_default));
-        txtTodayTomorrow.setVisibility(GONE);
-        txtSpacer.setVisibility(GONE);
+        txtDayOfMonth.setTextColor(getResources().getColor(R.color.calendar_text_default));
+        txtDayOfWeek.setTextColor(getResources().getColor(R.color.calendar_text_default));
 
         if (DateHelper.sameDate(day, today)) {
-            txtDay.setTextColor(getResources().getColor(R.color.blue_selected));
-            txtTodayTomorrow.setText(getResources().getString(R.string.today).toUpperCase());
-            txtTodayTomorrow.setTextColor(getResources().getColor(R.color.blue_selected));
-            txtTodayTomorrow.setVisibility(VISIBLE);
-            txtTodayTomorrow.setTypeface(null, Typeface.BOLD);
-            txtSpacer.setTextColor(getResources().getColor(R.color.blue_selected));
-            txtSpacer.setVisibility(VISIBLE);
-        } else if (DateHelper.sameDate(day, tomorrow)) {
-            txtTodayTomorrow.setVisibility(VISIBLE);
-            txtTodayTomorrow.setTypeface(null, Typeface.NORMAL);
-            txtTodayTomorrow.setTextColor(getResources().getColor(R.color.calendar_text_default));
-            txtTodayTomorrow.setText(getResources().getString(R.string.tomorrow).toUpperCase());
-            txtSpacer.setTextColor(getResources().getColor(R.color.calendar_text_default));
-            txtSpacer.setVisibility(VISIBLE);
+            txtDayOfMonth.setTextColor(getResources().getColor(R.color.blue_selected));
+            circleView.setVisibility(VISIBLE);
+        } else {
+            circleView.setVisibility(INVISIBLE);
         }
 
-        txtDay.setText(yearLessDate);
+        txtDayOfMonth.setText(String.valueOf(day.get(Calendar.DAY_OF_MONTH)));
+        txtDayOfWeek.setText(dayWeekFormatter.format(day.getTime()));
     }
 
     // endregion
