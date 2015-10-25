@@ -13,7 +13,6 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Typeface;
-import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -133,14 +132,13 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
                 cellItem.setOnClickListener(v->BusProvider.getInstance().send(new Events.DayClickedEvent(dayItem)));
 
                 txtMonth.setVisibility(View.GONE);
-                txtDay.setTextColor(mContext.getResources().getColor(R.color.calendar_text_default));
-                txtMonth.setTextColor(mContext.getResources().getColor(R.color.calendar_text_default));
-                cellItem.setBackgroundColor(mContext.getResources().getColor(R.color.calendar_future_days_bg));
+                txtDay.setTextColor(mContext.getResources().getColor(R.color.theme_text_icons));
+                txtMonth.setTextColor(mContext.getResources().getColor(R.color.theme_text_icons));
+                cellItem.setBackgroundColor(mContext.getResources().getColor(R.color.theme_primary));
+                circleView.setVisibility(View.GONE);
+
                 txtDay.setTypeface(null, Typeface.NORMAL);
                 txtMonth.setTypeface(null, Typeface.NORMAL);
-                GradientDrawable circleBgShape = (GradientDrawable) circleView.getBackground();
-                circleBgShape.setColor(mContext.getResources().getColor(R.color.blue_selected));
-                circleView.setVisibility(View.GONE);
 
                 // Display the day
                 txtDay.setText(Integer.toString(dayItem.getValue()));
@@ -149,25 +147,24 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
                 if (dayItem.isFirstDayOfTheMonth() && !dayItem.isSelected()) {
                     txtMonth.setVisibility(View.VISIBLE);
                     txtMonth.setText(dayItem.getMonth());
-                    txtDay.setTextColor(mContext.getResources().getColor(R.color.calendar_text_first_day_of_month));
-                    txtMonth.setTextColor(mContext.getResources().getColor(R.color.calendar_text_first_day_of_month));
-                }
-
-                // Check if this day is in the past
-                if (today.getTime().after(dayItem.getDate()) && !DateHelper.sameDate(today, dayItem.getDate())) {
-                    cellItem.setBackgroundColor(mContext.getResources().getColor(R.color.calendar_past_days_bg));
-                }
-
-                // Highlight the cell if this day is today
-                if (dayItem.isToday() && !dayItem.isSelected()) {
-                    txtDay.setTextColor(mContext.getResources().getColor(R.color.calendar_text_current_day));
-                    txtMonth.setTextColor(mContext.getResources().getColor(R.color.calendar_text_current_day));
-                    cellItem.setBackgroundColor(mContext.getResources().getColor(R.color.calendar_future_days_bg));
                     txtDay.setTypeface(null, Typeface.BOLD);
                     txtMonth.setTypeface(null, Typeface.BOLD);
                 }
 
-                // Show a blue circle if the day is selected
+                // Check if this day is in the past
+                if (today.getTime().after(dayItem.getDate()) && !DateHelper.sameDate(today, dayItem.getDate())) {
+                    txtDay.setTextColor(mContext.getResources().getColor(R.color.theme_light_primary));
+                    txtMonth.setTextColor(mContext.getResources().getColor(R.color.theme_light_primary));
+                }
+
+                // Highlight the cell if this day is today
+                if (dayItem.isToday() && !dayItem.isSelected()) {
+                    txtDay.setTextColor(mContext.getResources().getColor(R.color.theme_accent));
+                    txtMonth.setTextColor(mContext.getResources().getColor(R.color.theme_accent));
+                    cellItem.setBackgroundColor(mContext.getResources().getColor(R.color.theme_primary));
+                }
+
+                // Show a circle if the day is selected
                 if (dayItem.isSelected()) {
                     txtDay.setTextColor(mContext.getResources().getColor(android.R.color.white));
                     circleView.setVisibility(View.VISIBLE);
@@ -202,8 +199,8 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
                 ObjectAnimator animatorTxtAlphaIn = ObjectAnimator.ofFloat(mTxtMonth, "alpha", mTxtMonth.getAlpha(), 1f);
                 ObjectAnimator animatorBackgroundAlphaIn = ObjectAnimator.ofFloat(mMonthBackground, "alpha", mMonthBackground.getAlpha(), 1f);
                 animatorSetFadeIn.playTogether(
-                        animatorTxtAlphaIn,
-                        animatorBackgroundAlphaIn
+                        animatorTxtAlphaIn
+                        //animatorBackgroundAlphaIn
                 );
                 animatorSetFadeIn.addListener(new Animator.AnimatorListener() {
                     @Override
@@ -233,8 +230,8 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
                 ObjectAnimator animatorTxtAlphaOut = ObjectAnimator.ofFloat(mTxtMonth, "alpha", mTxtMonth.getAlpha(), 0f);
                 ObjectAnimator animatorBackgroundAlphaOut = ObjectAnimator.ofFloat(mMonthBackground, "alpha", mMonthBackground.getAlpha(), 0f);
                 animatorSetFadeOut.playTogether(
-                        animatorTxtAlphaOut,
-                        animatorBackgroundAlphaOut
+                        animatorTxtAlphaOut
+                        //animatorBackgroundAlphaOut
                 );
                 animatorSetFadeOut.addListener(new Animator.AnimatorListener() {
                     @Override
@@ -261,10 +258,10 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
             }
 
             if (isAlphaSet()) {
-                mMonthBackground.setAlpha(1f);
+                //mMonthBackground.setAlpha(1f);
                 mTxtMonth.setAlpha(1f);
             } else {
-                mMonthBackground.setAlpha(0f);
+                //mMonthBackground.setAlpha(0f);
                 mTxtMonth.setAlpha(0f);
             }
         }
