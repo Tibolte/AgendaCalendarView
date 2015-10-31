@@ -2,6 +2,7 @@ package com.github.tibolte.agendacalendarview;
 
 import com.github.tibolte.agendacalendarview.agenda.AgendaAdapter;
 import com.github.tibolte.agendacalendarview.agenda.AgendaListView;
+import com.github.tibolte.agendacalendarview.agenda.AgendaView;
 import com.github.tibolte.agendacalendarview.calendar.CalendarView;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
 import com.github.tibolte.agendacalendarview.utils.BusProvider;
@@ -37,7 +38,7 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
     private static final String LOG_TAG = AgendaCalendarView.class.getSimpleName();
 
     private CalendarView mCalendarView;
-    private AgendaListView mAgendaListView;
+    private AgendaView mAgendaView;
     private FloatingActionButton mFloatingActionButton;
 
     private int mCalendarHeaderColor;
@@ -100,11 +101,11 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
     protected void onFinishInflate() {
         super.onFinishInflate();
         mCalendarView = (CalendarView) findViewById(R.id.calendar_view);
-        mAgendaListView = (AgendaListView) findViewById(R.id.agenda_listview);
+        mAgendaView = (AgendaView) findViewById(R.id.agenda_view);
         mFloatingActionButton = (FloatingActionButton) findViewById(R.id.floating_action_button);
 
         mCalendarView.findViewById(R.id.cal_day_names).setBackgroundColor(mCalendarHeaderColor);
-        mAgendaListView.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
+        mAgendaView.getAgendaListView().setOnItemClickListener((AdapterView<?> parent, View view, int position, long id)->{
             mCalendarPickerController.onEventSelected(CalendarManager.getInstance().getEvents().get(position));
         });
 
@@ -127,11 +128,11 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
                                 // It will reappear as soon as the user is scrolling the Agenda view.
                                 new Handler().postDelayed(() -> {
                                     mFloatingActionButton.hide();
-                                    mAgendaListViewScrollTracker = new ListViewScrollTracker(mAgendaListView);
-                                    mAgendaListView.setOnScrollListener(mAgendaScrollListener);
+                                    mAgendaListViewScrollTracker = new ListViewScrollTracker(mAgendaView.getAgendaListView());
+                                    mAgendaView.getAgendaListView().setOnScrollListener(mAgendaScrollListener);
                                     mFloatingActionButton.setOnClickListener((v) -> {
-                                        mAgendaListView.translateList(0);
-                                        mAgendaListView.scrollToCurrentDate(CalendarManager.getInstance().getToday());
+                                        mAgendaView.translateList(0);
+                                        mAgendaView.getAgendaListView().scrollToCurrentDate(CalendarManager.getInstance().getToday());
                                         new Handler().postDelayed(() -> mFloatingActionButton.hide(), fabAnimationDelay);
                                     });
                                 }, fabAnimationDelay);
@@ -182,8 +183,8 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
 
         // Load agenda events and scroll to current day
         AgendaAdapter agendaAdapter = new AgendaAdapter();
-        mAgendaListView.setAdapter(agendaAdapter);
-        mAgendaListView.setOnStickyHeaderChangedListener(this);
+        mAgendaView.getAgendaListView().setAdapter(agendaAdapter);
+        mAgendaView.getAgendaListView().setOnStickyHeaderChangedListener(this);
         CalendarManager.getInstance().loadEvents(eventList);
     }
 
