@@ -71,8 +71,7 @@ public class ListViewScrollTracker {
      *
      * @param firstVisiblePosition First visible item position in the list.
      * @param visibleItemCount     Number of visible items in the list.
-     * @return Distance in pixels compared to current day position (negative if firstVisiblePosition
-     * < mReferencePosition)
+     * @return Distance in pixels compared to current day position (negative if firstVisiblePosition less than mReferencePosition)
      */
     public int calculateScrollY(int firstVisiblePosition, int visibleItemCount) {
         mFirstVisiblePosition = firstVisiblePosition;
