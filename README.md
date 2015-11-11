@@ -9,5 +9,5 @@ Usage
 Grab it from maven:
 
 ```groovy
-    compile 'com.github.tibolte:agendacalendarview:1.0.+'
+    compile 'com.github.tibolte:agendacalendarview:1.0.0'
 ````
