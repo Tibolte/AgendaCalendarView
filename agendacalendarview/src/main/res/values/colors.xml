@@ -21,7 +21,4 @@
     <color name="theme_accent">#FFEB3B</color>
     <color name="theme_text_icons">#FFFFFF</color>
 
-    <!-- Floating action button -->
-    <color name="fab_pressed">@color/theme_accent</color>
-    <color name="fab_ripple">@color/theme_accent</color>
 </resources>

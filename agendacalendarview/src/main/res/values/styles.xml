@@ -29,7 +29,5 @@
         <item name="elevation">8dp</item>
         <item name="fabSize">mini</item>
         <item name="pressedTranslationZ">6dp</item>
-        <item name="backgroundTint">@color/theme_accent</item>
-        <item name="rippleColor">@color/fab_ripple</item>
     </style>
 </resources>

@@ -133,14 +133,14 @@ public class CalendarView extends LinearLayout {
 
     // region Public methods
 
-    public void init(CalendarManager calendarManager) {
+    public void init(CalendarManager calendarManager, int dayTextColor, int currentDayTextColor, int pastDayTextColor) {
         Calendar today = calendarManager.getToday();
         Locale locale = calendarManager.getLocale();
         SimpleDateFormat weekDayFormatter = calendarManager.getWeekdayFormatter();
         List<WeekItem> weeks = calendarManager.getWeeks();
 
         setUpHeader(today, weekDayFormatter, locale);
-        setUpAdapter(today, weeks);
+        setUpAdapter(today, weeks, dayTextColor, currentDayTextColor, pastDayTextColor);
         scrollToDate(today, weeks);
     }
 
@@ -150,7 +150,7 @@ public class CalendarView extends LinearLayout {
      * @param calendarEvent The event for the selected position in the agenda listview.
      */
     public void scrollToDate(final CalendarEvent calendarEvent) {
-        mListViewWeeks.post(() -> scrollToPosition(updateSelectedDay(calendarEvent.getInstanceDay(), calendarEvent.getDayReference())));
+        mListViewWeeks.post(()->scrollToPosition(updateSelectedDay(calendarEvent.getInstanceDay(), calendarEvent.getDayReference())));
     }
 
     public void scrollToDate(Calendar today, List<WeekItem> weeks) {
@@ -170,6 +170,14 @@ public class CalendarView extends LinearLayout {
         }
     }
 
+    public void setBackgroundColor(int color) {
+        mListViewWeeks.setBackgroundColor(color);
+    }
+
+    // endregion
+
+    // region Private methods
+
     private void scrollToPosition(int targetPosition) {
         LinearLayoutManager layoutManager = ((LinearLayoutManager) mListViewWeeks.getLayoutManager());
         layoutManager.scrollToPosition(targetPosition);
@@ -180,17 +188,13 @@ public class CalendarView extends LinearLayout {
         weeksAdapter.notifyItemChanged(position);
     }
 
-    // endregion
-
-    // region Private methods
-
     /**
      * Creates a new adapter if necessary and sets up its parameters.
      */
-    private void setUpAdapter(Calendar today, List<WeekItem> weeks) {
+    private void setUpAdapter(Calendar today, List<WeekItem> weeks, int dayTextColor, int currentDayTextColor, int pastDayTextColor) {
         if (mWeeksAdapter == null) {
             Log.d(LOG_TAG, "Setting adapter with today's calendar: " + today.toString());
-            mWeeksAdapter = new WeeksAdapter(getContext(), today);
+            mWeeksAdapter = new WeeksAdapter(getContext(), today, dayTextColor, currentDayTextColor, pastDayTextColor);
             mListViewWeeks.setAdapter(mWeeksAdapter);
         }
         mWeeksAdapter.updateWeeksItems(weeks);

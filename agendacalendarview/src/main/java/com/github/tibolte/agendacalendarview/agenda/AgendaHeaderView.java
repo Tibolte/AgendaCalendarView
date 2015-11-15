@@ -5,7 +5,8 @@ import com.github.tibolte.agendacalendarview.R;
 import com.github.tibolte.agendacalendarview.utils.DateHelper;
 
 import android.content.Context;
-import android.graphics.Typeface;
+import android.content.res.Resources;
+import android.graphics.drawable.GradientDrawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +45,7 @@ public class AgendaHeaderView extends LinearLayout {
 
     // region Public methods
 
-    public void setDay(Calendar day) {
+    public void setDay(Calendar day, int currentDayTextColor) {
         TextView txtDayOfMonth = (TextView) findViewById(R.id.view_agenda_day_of_month);
         TextView txtDayOfWeek = (TextView) findViewById(R.id.view_agenda_day_of_week);
         View circleView = findViewById(R.id.view_day_circle_selected);
@@ -60,8 +61,10 @@ public class AgendaHeaderView extends LinearLayout {
         txtDayOfWeek.setTextColor(getResources().getColor(R.color.calendar_text_default));
 
         if (DateHelper.sameDate(day, today)) {
-            txtDayOfMonth.setTextColor(getResources().getColor(R.color.blue_selected));
+            txtDayOfMonth.setTextColor(currentDayTextColor);
             circleView.setVisibility(VISIBLE);
+            GradientDrawable drawable = (GradientDrawable) circleView.getBackground();
+            drawable.setStroke((int) (2 * Resources.getSystem().getDisplayMetrics().density), currentDayTextColor);
         } else {
             circleView.setVisibility(INVISIBLE);
         }

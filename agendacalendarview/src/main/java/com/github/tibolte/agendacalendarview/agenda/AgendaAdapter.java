@@ -18,10 +18,12 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 public class AgendaAdapter extends BaseAdapter implements StickyListHeadersAdapter {
 
     private List<CalendarEvent> mEvents = new ArrayList<>();
+    private int mCurrentDayColor;
 
     // region Constructor
 
-    public AgendaAdapter() {
+    public AgendaAdapter(int currentDayTextColor) {
+        this.mCurrentDayColor = currentDayTextColor;
     }
 
     // endregion
@@ -44,7 +46,7 @@ public class AgendaAdapter extends BaseAdapter implements StickyListHeadersAdapt
         if (agendaHeaderView == null) {
             agendaHeaderView = AgendaHeaderView.inflate(parent);
         }
-        agendaHeaderView.setDay(getItem(position).getInstanceDay());
+        agendaHeaderView.setDay(getItem(position).getInstanceDay(), mCurrentDayColor);
         return agendaHeaderView;
     }
 

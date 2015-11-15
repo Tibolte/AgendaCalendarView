@@ -13,6 +13,7 @@ import com.github.tibolte.agendacalendarview.widgets.FloatingActionButton;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.os.Handler;
 import android.util.AttributeSet;
@@ -41,7 +42,7 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
     private AgendaView mAgendaView;
     private FloatingActionButton mFloatingActionButton;
 
-    private int mCalendarHeaderColor;
+    private int mAgendaCurrentDayTextColor, mCalendarHeaderColor, mCalendarBackgroundColor, mCalendarDayTextColor, mCalendarPastDayTextColor, mCalendarCurrentDayColor, mFabColor;
     private CalendarPickerController mCalendarPickerController;
 
     private ListViewScrollTracker mAgendaListViewScrollTracker;
@@ -84,7 +85,13 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
         super(context, attrs);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ColorOptionsView, 0, 0);
-        mCalendarHeaderColor = a.getColor(R.styleable.ColorOptionsView_calendarHeaderColor, getResources().getColor(R.color.calendar_past_days_bg));
+        mAgendaCurrentDayTextColor = a.getColor(R.styleable.ColorOptionsView_agendaCurrentDayTextColor, getResources().getColor(R.color.theme_primary));
+        mCalendarHeaderColor = a.getColor(R.styleable.ColorOptionsView_calendarHeaderColor, getResources().getColor(R.color.theme_primary_dark));
+        mCalendarBackgroundColor = a.getColor(R.styleable.ColorOptionsView_calendarColor, getResources().getColor(R.color.theme_primary));
+        mCalendarDayTextColor = a.getColor(R.styleable.ColorOptionsView_calendarDayTextColor, getResources().getColor(R.color.theme_text_icons));
+        mCalendarCurrentDayColor = a.getColor(R.styleable.ColorOptionsView_calendarCurrentDayTextColor, getResources().getColor(R.color.calendar_text_current_day));
+        mCalendarPastDayTextColor = a.getColor(R.styleable.ColorOptionsView_calendarPastDayTextColor, getResources().getColor(R.color.theme_light_primary));
+        mFabColor = a.getColor(R.styleable.ColorOptionsView_fabColor, getResources().getColor(R.color.theme_accent));
 
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -103,8 +110,12 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
         mCalendarView = (CalendarView) findViewById(R.id.calendar_view);
         mAgendaView = (AgendaView) findViewById(R.id.agenda_view);
         mFloatingActionButton = (FloatingActionButton) findViewById(R.id.floating_action_button);
+        ColorStateList csl = new ColorStateList(new int[][]{new int[0]}, new int[]{mFabColor});
+        mFloatingActionButton.setBackgroundTintList(csl);
 
         mCalendarView.findViewById(R.id.cal_day_names).setBackgroundColor(mCalendarHeaderColor);
+        mCalendarView.findViewById(R.id.list_week).setBackgroundColor(mCalendarBackgroundColor);
+
         mAgendaView.getAgendaListView().setOnItemClickListener((AdapterView<?> parent, View view, int position, long id)->{
             mCalendarPickerController.onEventSelected(CalendarManager.getInstance().getEvents().get(position));
         });
@@ -179,10 +190,10 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
         CalendarManager.getInstance(getContext()).buildCal(minDate, maxDate, locale);
 
         // Feed our views with weeks list and events
-        mCalendarView.init(CalendarManager.getInstance(getContext()));
+        mCalendarView.init(CalendarManager.getInstance(getContext()), mCalendarDayTextColor, mCalendarCurrentDayColor, mCalendarPastDayTextColor);
 
         // Load agenda events and scroll to current day
-        AgendaAdapter agendaAdapter = new AgendaAdapter();
+        AgendaAdapter agendaAdapter = new AgendaAdapter(mAgendaCurrentDayTextColor);
         mAgendaView.getAgendaListView().setAdapter(agendaAdapter);
         mAgendaView.getAgendaListView().setOnStickyHeaderChangedListener(this);
         CalendarManager.getInstance().loadEvents(eventList);

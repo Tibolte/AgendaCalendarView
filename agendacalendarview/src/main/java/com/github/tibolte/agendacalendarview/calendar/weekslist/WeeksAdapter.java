@@ -35,12 +35,16 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
     private List<WeekItem> mWeeksList = new ArrayList<>();
     private boolean mDragging;
     private boolean mAlphaSet;
+    private int mDayTextColor, mPastDayTextColor, mCurrentDayColor;
 
     // region Constructor
 
-    public WeeksAdapter(Context context, Calendar today) {
+    public WeeksAdapter(Context context, Calendar today, int dayTextColor, int currentDayTextColor, int pastDayTextColor) {
         this.mToday = today;
         this.mContext = context;
+        this.mDayTextColor = dayTextColor;
+        this.mCurrentDayColor = currentDayTextColor;
+        this.mPastDayTextColor = pastDayTextColor;
     }
 
     // endregion
@@ -132,9 +136,8 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
                 cellItem.setOnClickListener(v->BusProvider.getInstance().send(new Events.DayClickedEvent(dayItem)));
 
                 txtMonth.setVisibility(View.GONE);
-                txtDay.setTextColor(mContext.getResources().getColor(R.color.theme_text_icons));
-                txtMonth.setTextColor(mContext.getResources().getColor(R.color.theme_text_icons));
-                cellItem.setBackgroundColor(mContext.getResources().getColor(R.color.theme_primary));
+                txtDay.setTextColor(mDayTextColor);
+                txtMonth.setTextColor(mDayTextColor);
                 circleView.setVisibility(View.GONE);
 
                 txtDay.setTypeface(null, Typeface.NORMAL);
@@ -153,19 +156,18 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
 
                 // Check if this day is in the past
                 if (today.getTime().after(dayItem.getDate()) && !DateHelper.sameDate(today, dayItem.getDate())) {
-                    txtDay.setTextColor(mContext.getResources().getColor(R.color.theme_light_primary));
-                    txtMonth.setTextColor(mContext.getResources().getColor(R.color.theme_light_primary));
+                    txtDay.setTextColor(mPastDayTextColor);
+                    txtMonth.setTextColor(mPastDayTextColor);
                 }
 
                 // Highlight the cell if this day is today
                 if (dayItem.isToday() && !dayItem.isSelected()) {
-                    txtDay.setTextColor(mContext.getResources().getColor(android.R.color.black));
-                    cellItem.setBackgroundColor(mContext.getResources().getColor(R.color.theme_primary));
+                    txtDay.setTextColor(mCurrentDayColor);
                 }
 
                 // Show a circle if the day is selected
                 if (dayItem.isSelected()) {
-                    txtDay.setTextColor(mContext.getResources().getColor(android.R.color.white));
+                    txtDay.setTextColor(mDayTextColor);
                     circleView.setVisibility(View.VISIBLE);
                 }
 
