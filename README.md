@@ -67,7 +67,7 @@ The event list contains CalendarEvent instances, see the description of the para
         this.mAllDay = allDay;
     }
 ````
-Here is a quick (and very simple) to provide a list of events:
+Here is a quick (and very simple) example providing a list of events:
 
 ```java
     private void mockList(List<CalendarEvent> eventList) {
