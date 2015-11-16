@@ -97,6 +97,11 @@ Here is a quick (and very simple) example providing a list of events:
     }
 ````  
 
+# Roadmap (feel free to suggest any other improvement ideas)
+
+. Provide your own item layout for the event list  
+. Parallax items like in Google Calendar
+
 # Participating?
 Make your pull requests on feature or bugfix branches.  
 
