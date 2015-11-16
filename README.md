@@ -1,5 +1,7 @@
 # AgendaCalendarView
 
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-AgendaCalendarView-green.svg?style=true)](https://android-arsenal.com/details/1/2796)
+
 ![](https://raw.githubusercontent.com/Tibolte/AgendaCalendarView/master/demo.gif)  
 
 Usage
