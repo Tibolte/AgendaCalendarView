@@ -92,11 +92,8 @@ public class AgendaAdapter extends BaseAdapter implements StickyListHeadersAdapt
                 break;
             }
         }
-
-        if (convertView == null) {
-            convertView = LayoutInflater.from(parent.getContext())
-                    .inflate(eventRenderer.getEventLayout(), parent, false);
-        }
+        convertView = LayoutInflater.from(parent.getContext())
+                .inflate(eventRenderer.getEventLayout(), parent, false);
         eventRenderer.render(convertView, event);
         return convertView;
     }
