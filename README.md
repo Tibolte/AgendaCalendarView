@@ -2,6 +2,8 @@
 
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-AgendaCalendarView-green.svg?style=true)](https://android-arsenal.com/details/1/2796)
 
+This library replicates the basic features of the Calendar and Agenda views from the Sunrise (soon to be Outlook) app, coupled with some small design touch from the Google calendar app.  
+
 ![](https://raw.githubusercontent.com/Tibolte/AgendaCalendarView/master/demo.gif)  
 
 Usage
