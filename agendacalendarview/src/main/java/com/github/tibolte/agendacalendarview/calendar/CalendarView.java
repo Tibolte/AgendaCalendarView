@@ -4,6 +4,7 @@ import com.github.tibolte.agendacalendarview.CalendarManager;
 import com.github.tibolte.agendacalendarview.R;
 import com.github.tibolte.agendacalendarview.calendar.weekslist.WeekListView;
 import com.github.tibolte.agendacalendarview.calendar.weekslist.WeeksAdapter;
+import com.github.tibolte.agendacalendarview.models.BaseCalendarEvent;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
 import com.github.tibolte.agendacalendarview.models.DayItem;
 import com.github.tibolte.agendacalendarview.models.WeekItem;
@@ -105,7 +106,7 @@ public class CalendarView extends LinearLayout {
                     public void onGlobalLayout() {
                         if (getWidth() != 0 && getHeight() != 0) {
                             collapseCalendarView();
-                            getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            getViewTreeObserver().removeGlobalOnLayoutListener(this);
                         }
                     }
                 }

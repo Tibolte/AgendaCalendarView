@@ -73,7 +73,7 @@ public class AgendaView extends FrameLayout {
 
                                             getAgendaListView().scrollToCurrentDate(CalendarManager.getInstance().getToday());
 
-                                            getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                                            getViewTreeObserver().removeGlobalOnLayoutListener(this);
                                         }
                                     }
                                 }

@@ -2,6 +2,7 @@ package com.github.tibolte.sample;
 
 import com.github.tibolte.agendacalendarview.AgendaCalendarView;
 import com.github.tibolte.agendacalendarview.CalendarPickerController;
+import com.github.tibolte.agendacalendarview.models.BaseCalendarEvent;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
 import com.github.tibolte.agendacalendarview.models.DayItem;
 
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
         mockList(eventList);
 
         mAgendaCalendarView.init(eventList, minDate, maxDate, Locale.getDefault(), this);
+        mAgendaCalendarView.addEventRenderer(new DrawableEventRenderer());
     }
 
     // endregion
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
         Calendar startTime1 = Calendar.getInstance();
         Calendar endTime1 = Calendar.getInstance();
         endTime1.add(Calendar.MONTH, 1);
-        CalendarEvent event1 = new CalendarEvent("Thibault travels in Iceland", "A wonderful journey!", "Iceland",
+        BaseCalendarEvent event1 = new BaseCalendarEvent("Thibault travels in Iceland", "A wonderful journey!", "Iceland",
                 ContextCompat.getColor(this, R.color.orange_dark), startTime1, endTime1, true);
         eventList.add(event1);
 
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
         startTime2.add(Calendar.DAY_OF_YEAR, 1);
         Calendar endTime2 = Calendar.getInstance();
         endTime2.add(Calendar.DAY_OF_YEAR, 3);
-        CalendarEvent event2 = new CalendarEvent("Visit to Dalvík", "A beautiful small town", "Dalvík",
+        BaseCalendarEvent event2 = new BaseCalendarEvent("Visit to Dalvík", "A beautiful small town", "Dalvík",
                 ContextCompat.getColor(this, R.color.yellow), startTime2, endTime2, true);
         eventList.add(event2);
 
@@ -93,8 +95,8 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
         startTime3.set(Calendar.MINUTE, 0);
         endTime3.set(Calendar.HOUR_OF_DAY, 15);
         endTime3.set(Calendar.MINUTE, 0);
-        CalendarEvent event3 = new CalendarEvent("Visit of Harpa", "", "Dalvík",
-                ContextCompat.getColor(this, R.color.blue_dark), startTime3, endTime3, false);
+        DrawableCalendarEvent event3 = new DrawableCalendarEvent("Visit of Harpa", "", "Dalvík",
+                ContextCompat.getColor(this, R.color.blue_dark), startTime3, endTime3, false, R.drawable.common_ic_googleplayservices);
         eventList.add(event3);
     }
 
