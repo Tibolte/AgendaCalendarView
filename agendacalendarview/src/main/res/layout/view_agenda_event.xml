@@ -1,53 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:paddingBottom="5dp"
-    android:paddingLeft="15dp"
-    android:paddingRight="15dp"
-    android:paddingTop="5dp">
+<com.github.tibolte.agendacalendarview.agenda.AgendaEventView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
     <!-- Description -->
     <LinearLayout
-        android:id="@+id/view_agenda_event_description_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="55dp"
-        android:orientation="vertical"
-        android:padding="10dp">
+            android:id="@+id/view_agenda_event_description_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
 
         <TextView
-            android:id="@+id/view_agenda_event_title"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:textColor="@android:color/black"
-            android:textSize="16dp" />
+                android:id="@+id/view_agenda_event_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textColor="@android:color/black"
+                android:textSize="16dp"/>
 
         <LinearLayout
-            android:id="@+id/view_agenda_event_location_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+                android:id="@+id/view_agenda_event_location_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/img_location" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/img_location"/>
 
             <TextView
-                android:id="@+id/view_agenda_event_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:textColor="@color/calendar_text_default"
-                android:textSize="11dp" />
+                    android:id="@+id/view_agenda_event_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:textColor="@color/calendar_text_default"
+                    android:textSize="11dp"/>
 
         </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</com.github.tibolte.agendacalendarview.agenda.AgendaEventView>
