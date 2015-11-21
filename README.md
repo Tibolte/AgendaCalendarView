@@ -12,7 +12,7 @@ Usage
 Grab it from maven:
 
 ```groovy
-    compile 'com.github.tibolte:agendacalendarview:1.0.1'
+    compile 'com.github.tibolte:agendacalendarview:1.0.2'
 ````  
 
 Declare this view in your layout like below, providing your own theme and colors if you want.
