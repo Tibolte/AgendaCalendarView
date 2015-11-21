@@ -17,11 +17,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         agendaCalendar:agendaCurrentDayTextColor="@color/theme_primary"
-        agendaCalendar:calendarColor="@color/theme_primary"
+        agendaCalendar:calendarColor="@android:color/white"
         agendaCalendar:calendarCurrentDayTextColor="@color/calendar_text_current_day"
-        agendaCalendar:calendarDayTextColor="@color/theme_text_icons"
+        agendaCalendar:calendarDayTextColor="@color/theme_primary"
         agendaCalendar:calendarHeaderColor="@color/theme_primary_dark"
-        agendaCalendar:calendarPastDayTextColor="@color/theme_light_primary"
+        agendaCalendar:calendarPastDayTextColor="@android:color/darker_gray"
         agendaCalendar:fabColor="@color/theme_accent" />
 
 </LinearLayout>

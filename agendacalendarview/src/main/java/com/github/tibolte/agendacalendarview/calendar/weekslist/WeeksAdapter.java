@@ -12,7 +12,9 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -169,6 +171,8 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
                 if (dayItem.isSelected()) {
                     txtDay.setTextColor(mDayTextColor);
                     circleView.setVisibility(View.VISIBLE);
+                    GradientDrawable drawable = (GradientDrawable) circleView.getBackground();
+                    drawable.setStroke((int) (1 * Resources.getSystem().getDisplayMetrics().density), mDayTextColor);
                 }
 
                 // Check if the month label has to be displayed
