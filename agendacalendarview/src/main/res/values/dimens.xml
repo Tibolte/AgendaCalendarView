@@ -16,4 +16,9 @@
     <dimen name="fab_shadow_size">12dp</dimen>
     <dimen name="fab_elevation_lollipop">8dp</dimen>
     <dimen name="fab_press_translation_z">6dp</dimen>
+
+    <dimen name="agenda_event_view_padding_left">70dp</dimen>
+    <dimen name="agenda_event_view_padding_top">5dp</dimen>
+    <dimen name="agenda_event_view_padding_right">15dp</dimen>
+    <dimen name="agenda_event_view_padding_bottom">5dp</dimen>
 </resources>

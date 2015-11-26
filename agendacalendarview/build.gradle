@@ -3,7 +3,7 @@ apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.0"
+    buildToolsVersion "23.0.1"
 
     android {
         lintOptions {
@@ -40,16 +40,16 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // Google libraries
-    compile 'com.android.support:appcompat-v7:23.1.0'
-    compile 'com.google.android.gms:play-services-location:8.1.0'
-    compile 'com.android.support:recyclerview-v7:23.1.0'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.google.android.gms:play-services-location:8.3.0'
+    compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'com.google.collections:google-collections:1.0-rc2'
-    compile 'com.android.support:design:23.1.0'
+    compile 'com.android.support:design:23.1.1'
 
     // other libraries
     compile 'se.emilsjolander:stickylistheaders:2.5.2'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'pl.charmas.android:android-reactive-location:0.6@aar'
-    compile 'io.reactivex:rxjava:1.0.15'
-    compile 'io.reactivex:rxandroid:0.25.0'
+    compile 'io.reactivex:rxjava:1.0.16'
+    compile 'io.reactivex:rxandroid:1.0.1'
 }

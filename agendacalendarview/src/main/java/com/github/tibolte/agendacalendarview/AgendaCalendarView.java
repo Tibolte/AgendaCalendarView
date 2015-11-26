@@ -1,10 +1,12 @@
 package com.github.tibolte.agendacalendarview;
 
 import com.github.tibolte.agendacalendarview.agenda.AgendaAdapter;
-import com.github.tibolte.agendacalendarview.agenda.AgendaListView;
 import com.github.tibolte.agendacalendarview.agenda.AgendaView;
 import com.github.tibolte.agendacalendarview.calendar.CalendarView;
+import com.github.tibolte.agendacalendarview.models.BaseCalendarEvent;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
+import com.github.tibolte.agendacalendarview.render.DefaultEventRenderer;
+import com.github.tibolte.agendacalendarview.render.EventRenderer;
 import com.github.tibolte.agendacalendarview.utils.BusProvider;
 import com.github.tibolte.agendacalendarview.utils.Events;
 import com.github.tibolte.agendacalendarview.utils.ListViewScrollTracker;
@@ -16,6 +18,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -197,6 +200,14 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
         mAgendaView.getAgendaListView().setAdapter(agendaAdapter);
         mAgendaView.getAgendaListView().setOnStickyHeaderChangedListener(this);
         CalendarManager.getInstance().loadEvents(eventList);
+
+        // add default event renderer
+        addEventRenderer(new DefaultEventRenderer());
+    }
+
+    public void addEventRenderer(@NonNull final EventRenderer<?> renderer) {
+        AgendaAdapter adapter = (AgendaAdapter) mAgendaView.getAgendaListView().getAdapter();
+        adapter.addEventRenderer(renderer);
     }
 
     // endregion

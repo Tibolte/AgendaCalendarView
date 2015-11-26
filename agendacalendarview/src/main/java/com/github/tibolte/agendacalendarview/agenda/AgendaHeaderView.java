@@ -23,8 +23,7 @@ import java.util.Calendar;
 public class AgendaHeaderView extends LinearLayout {
 
     public static AgendaHeaderView inflate(ViewGroup parent) {
-        AgendaHeaderView agendaHeaderView = (AgendaHeaderView) LayoutInflater.from(parent.getContext()).inflate(R.layout.view_agenda_header, parent, false);
-        return agendaHeaderView;
+        return (AgendaHeaderView) LayoutInflater.from(parent.getContext()).inflate(R.layout.view_agenda_header, parent, false);
     }
 
     // region Constructors
@@ -51,9 +50,6 @@ public class AgendaHeaderView extends LinearLayout {
         View circleView = findViewById(R.id.view_day_circle_selected);
 
         Calendar today = CalendarManager.getInstance().getToday();
-        Calendar tomorrow = Calendar.getInstance();
-        tomorrow.setTime(today.getTime());
-        tomorrow.add(Calendar.DATE, 1);
 
         SimpleDateFormat dayWeekFormatter = new SimpleDateFormat("E");
 

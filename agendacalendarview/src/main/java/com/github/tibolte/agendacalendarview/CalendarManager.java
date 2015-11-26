@@ -1,5 +1,6 @@
 package com.github.tibolte.agendacalendarview;
 
+import com.github.tibolte.agendacalendarview.models.BaseCalendarEvent;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
 import com.github.tibolte.agendacalendarview.models.DayItem;
 import com.github.tibolte.agendacalendarview.models.MonthItem;
@@ -231,7 +232,7 @@ public class CalendarManager {
                 boolean isEventForDay = false;
                 for (CalendarEvent event : eventList) {
                     if (DateHelper.isBetweenInclusive(dayItem.getDate(), event.getStartTime(), event.getEndTime())) {
-                        CalendarEvent copy = new CalendarEvent(event);
+                        CalendarEvent copy = event.copy();
 
                         Calendar dayInstance = Calendar.getInstance();
                         dayInstance.setTime(dayItem.getDate());
@@ -246,7 +247,7 @@ public class CalendarManager {
                 if (!isEventForDay) {
                     Calendar dayInstance = Calendar.getInstance();
                     dayInstance.setTime(dayItem.getDate());
-                    CalendarEvent event = new CalendarEvent(dayInstance, getContext().getResources().getString(R.string.agenda_event_no_events));
+                    BaseCalendarEvent event = new BaseCalendarEvent(dayInstance, getContext().getResources().getString(R.string.agenda_event_no_events));
                     event.setDayReference(dayItem);
                     event.setWeekReference(weekItem);
                     getEvents().add(event);
@@ -391,7 +392,7 @@ public class CalendarManager {
 
                 Log.d(LOG_TAG, String.format("Found %d events", cursor.getCount()));
                 while (cursor.moveToNext()) {
-                    CalendarEvent event = new CalendarEvent(
+                    BaseCalendarEvent event = new BaseCalendarEvent(
                             cursor.getLong(0),
                             colors.get(cursor.getString(10)),
                             cursor.getString(2),
@@ -429,7 +430,7 @@ public class CalendarManager {
                     boolean isEventForDay = false;
                     for (CalendarEvent event : mEvents) {
                         if (DateHelper.isBetweenInclusive(dayItem.getDate(), event.getStartTime(), event.getEndTime())) {
-                            CalendarEvent copy = new CalendarEvent(event);
+                            CalendarEvent copy = event.copy();
 
                             Calendar dayInstance = Calendar.getInstance();
                             dayInstance.setTime(dayItem.getDate());
@@ -444,7 +445,7 @@ public class CalendarManager {
                     if (!isEventForDay) {
                         Calendar dayInstance = Calendar.getInstance();
                         dayInstance.setTime(dayItem.getDate());
-                        CalendarEvent event = new CalendarEvent(dayInstance, getContext().getResources().getString(R.string.agenda_event_no_events));
+                        BaseCalendarEvent event = new BaseCalendarEvent(dayInstance, getContext().getResources().getString(R.string.agenda_event_no_events));
                         event.setDayReference(dayItem);
                         event.setWeekReference(weekItem);
                         getEvents().add(event);
@@ -484,7 +485,7 @@ public class CalendarManager {
         List<CalendarEvent> filteredCalendarList = new ArrayList<>();
 
         for (DataPoint dataPoint : forecast.getHourly().getData()) {
-            CalendarEvent calendarEvent = new CalendarEvent(dataPoint);
+            CalendarEvent calendarEvent = new BaseCalendarEvent(dataPoint);
 
             Calendar tomorrow = Calendar.getInstance();
             tomorrow.setTime(getToday().getTime());

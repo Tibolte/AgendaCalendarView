@@ -1,7 +1,12 @@
 package com.github.tibolte.agendacalendarview.agenda;
 
+import com.github.tibolte.agendacalendarview.models.BaseCalendarEvent;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
+import com.github.tibolte.agendacalendarview.render.DefaultEventRenderer;
+import com.github.tibolte.agendacalendarview.render.EventRenderer;
 
+import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -18,6 +23,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 public class AgendaAdapter extends BaseAdapter implements StickyListHeadersAdapter {
 
     private List<CalendarEvent> mEvents = new ArrayList<>();
+    private List<EventRenderer<?>> mRenderers = new ArrayList<>();
     private int mCurrentDayColor;
 
     // region Constructor
@@ -76,12 +82,24 @@ public class AgendaAdapter extends BaseAdapter implements StickyListHeadersAdapt
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        AgendaEventView agendaEventView = (AgendaEventView) convertView;
-        if (agendaEventView == null) {
-            agendaEventView = AgendaEventView.inflate(parent);
+        EventRenderer eventRenderer = new DefaultEventRenderer();
+        final CalendarEvent event = getItem(position);
+
+        // Search for the correct event renderer
+        for (EventRenderer renderer : mRenderers) {
+            if(event.getClass().isAssignableFrom(renderer.getRenderType())) {
+                eventRenderer = renderer;
+                break;
+            }
         }
-        agendaEventView.setEvent(getItem(position));
-        return agendaEventView;
+        convertView = LayoutInflater.from(parent.getContext())
+                .inflate(eventRenderer.getEventLayout(), parent, false);
+        eventRenderer.render(convertView, event);
+        return convertView;
+    }
+
+    public void addEventRenderer(@NonNull final EventRenderer<?> renderer) {
+        mRenderers.add(renderer);
     }
 
     // endregion
