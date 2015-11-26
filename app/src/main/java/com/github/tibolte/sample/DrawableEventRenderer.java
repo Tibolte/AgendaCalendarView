@@ -8,6 +8,9 @@ import android.widget.TextView;
 import com.github.tibolte.agendacalendarview.render.EventRenderer;
 
 public class DrawableEventRenderer extends EventRenderer<DrawableCalendarEvent> {
+
+    // region Class - EventRenderer
+
     @Override
     public void render(View view, DrawableCalendarEvent event) {
         ImageView imageView = (ImageView) view.findViewById(R.id.view_agenda_event_image);
@@ -49,4 +52,6 @@ public class DrawableEventRenderer extends EventRenderer<DrawableCalendarEvent> 
     public Class<DrawableCalendarEvent> getRenderType() {
         return DrawableCalendarEvent.class;
     }
+
+    // endregion
 }

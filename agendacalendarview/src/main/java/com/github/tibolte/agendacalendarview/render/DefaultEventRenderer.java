@@ -8,7 +8,13 @@ import android.widget.TextView;
 import com.github.tibolte.agendacalendarview.R;
 import com.github.tibolte.agendacalendarview.models.BaseCalendarEvent;
 
+/**
+ * Class helping to inflate our default layout in the AgendaAdapter
+ */
 public class DefaultEventRenderer extends EventRenderer<BaseCalendarEvent> {
+
+    // region class - EventRenderer
+
     @Override
     public void render(@NonNull View view, @NonNull BaseCalendarEvent event) {
         TextView txtTitle = (TextView) view.findViewById(R.id.view_agenda_event_title);
@@ -41,4 +47,6 @@ public class DefaultEventRenderer extends EventRenderer<BaseCalendarEvent> {
     public int getEventLayout() {
         return R.layout.view_agenda_event;
     }
+
+    // endregion
 }

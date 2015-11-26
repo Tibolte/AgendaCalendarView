@@ -7,6 +7,9 @@ import com.github.tibolte.agendacalendarview.models.CalendarEvent;
 
 import java.lang.reflect.ParameterizedType;
 
+/**
+ * Base class for helping layout rendering
+ */
 public abstract class EventRenderer<T extends CalendarEvent> {
     public abstract void render(final View view, final T event);
 
