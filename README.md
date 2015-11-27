@@ -48,31 +48,40 @@ Then configure it in your code with a start and end date associated with a list 
         mAgendaCalendarView.init(eventList, minDate, maxDate, Locale.getDefault(), this);
 ````  
 
-The event list contains CalendarEvent instances, see the description of the parameters:
+The event list contains BaseCalendarEvent instances, see the description of the parameters:
 ```java
     /**
      * Initializes the event
-     * @param title The title of the event.
+     *
+     * @param id          The id of the event.
+     * @param color       The color of the event.
+     * @param title       The title of the event.
      * @param description The description of the event.
-     * @param location The location of the event.
-     * @param color The color of the event (for display in the app).
-     * @param startTime The start time of the event.
-     * @param endTime The end time of the event.
-     * @param allDay Indicates if the event lasts the whole day.
+     * @param location    The location of the event.
+     * @param dateStart   The start date of the event.
+     * @param dateEnd     The end date of the event.
+     * @param allDay      Int that can be equal to 0 or 1.
+     * @param duration    The duration of the event in RFC2445 format.
      */
-    public CalendarEvent(String title, String description, String location, int color, Calendar startTime, Calendar endTime, boolean allDay) {
+    public BaseCalendarEvent(long id, int color, String title, String description, String location, long dateStart, long dateEnd, int allDay, String duration) {
+        this.mId = id;
+        this.mColor = color;
+        this.mAllDay = (allDay == 1) ? true : false;
+        this.mDuration = duration;
         this.mTitle = title;
         this.mDescription = description;
         this.mLocation = location;
-        this.mColor = color;
-        this.mStartTime = startTime;
-        this.mEndTime = endTime;
-        this.mAllDay = allDay;
+
+        this.mStartTime = Calendar.getInstance();
+        this.mStartTime.setTimeInMillis(dateStart);
+        this.mEndTime = Calendar.getInstance();
+        this.mEndTime.setTimeInMillis(dateEnd);
     }
 ````
-Here is a quick (and very simple) example providing a list of events, you can provide serveral layouts too:
+Here is a quick (and very simple) example providing a list of events, you can provide several layouts too:
 
 ```java
+    private void mockList(List<CalendarEvent> eventList) {
         Calendar startTime1 = Calendar.getInstance();
         Calendar endTime1 = Calendar.getInstance();
         endTime1.add(Calendar.MONTH, 1);
@@ -88,7 +97,7 @@ Here is a quick (and very simple) example providing a list of events, you can pr
                 ContextCompat.getColor(this, R.color.yellow), startTime2, endTime2, true);
         eventList.add(event2);
 
-        // Example on how you can provide your own layout
+        // Example on how to provide your own layout
         Calendar startTime3 = Calendar.getInstance();
         Calendar endTime3 = Calendar.getInstance();
         startTime3.set(Calendar.HOUR_OF_DAY, 14);
@@ -108,6 +117,9 @@ Here is a quick (and very simple) example providing a list of events, you can pr
 
 # Participating?
 Make your pull requests on feature or bugfix branches.  
+
+# Special thanks to these contributors
+[FHellmann](https://github.com/FHellmann)
 
 License
 -----------
