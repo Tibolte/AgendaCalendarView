@@ -12,7 +12,7 @@ Usage
 Grab it from maven:
 
 ```groovy
-    compile 'com.github.tibolte:agendacalendarview:1.0.2'
+    compile 'com.github.tibolte:agendacalendarview:1.0.3'
 ````  
 
 Declare this view in your layout like below, providing your own theme and colors if you want.
@@ -70,14 +70,13 @@ The event list contains CalendarEvent instances, see the description of the para
         this.mAllDay = allDay;
     }
 ````
-Here is a quick (and very simple) example providing a list of events:
+Here is a quick (and very simple) example providing a list of events, you can provide serveral layouts too:
 
 ```java
-    private void mockList(List<CalendarEvent> eventList) {
         Calendar startTime1 = Calendar.getInstance();
         Calendar endTime1 = Calendar.getInstance();
         endTime1.add(Calendar.MONTH, 1);
-        CalendarEvent event1 = new CalendarEvent("Thibault travels in Iceland", "A wonderful journey!", "Iceland",
+        BaseCalendarEvent event1 = new BaseCalendarEvent("Thibault travels in Iceland", "A wonderful journey!", "Iceland",
                 ContextCompat.getColor(this, R.color.orange_dark), startTime1, endTime1, true);
         eventList.add(event1);
 
@@ -85,26 +84,27 @@ Here is a quick (and very simple) example providing a list of events:
         startTime2.add(Calendar.DAY_OF_YEAR, 1);
         Calendar endTime2 = Calendar.getInstance();
         endTime2.add(Calendar.DAY_OF_YEAR, 3);
-        CalendarEvent event2 = new CalendarEvent("Visit to Dalvík", "A beautiful small town", "Dalvík",
+        BaseCalendarEvent event2 = new BaseCalendarEvent("Visit to Dalvík", "A beautiful small town", "Dalvík",
                 ContextCompat.getColor(this, R.color.yellow), startTime2, endTime2, true);
         eventList.add(event2);
 
+        // Example on how you can provide your own layout
         Calendar startTime3 = Calendar.getInstance();
         Calendar endTime3 = Calendar.getInstance();
         startTime3.set(Calendar.HOUR_OF_DAY, 14);
         startTime3.set(Calendar.MINUTE, 0);
         endTime3.set(Calendar.HOUR_OF_DAY, 15);
         endTime3.set(Calendar.MINUTE, 0);
-        CalendarEvent event3 = new CalendarEvent("Visit of Harpa", "", "Dalvík",
-                ContextCompat.getColor(this, R.color.blue_dark), startTime3, endTime3, false);
+        DrawableCalendarEvent event3 = new DrawableCalendarEvent("Visit of Harpa", "", "Dalvík",
+                ContextCompat.getColor(this, R.color.blue_dark), startTime3, endTime3, false, R.drawable.common_ic_googleplayservices);
         eventList.add(event3);
     }
 ````  
 
 # Roadmap (feel free to suggest any other improvement ideas)
 
-. Provide your own item layout for the event list  
-. Parallax items like in Google Calendar
+. Parallax items like in Google Calendar  
+. Easier way to provide your own list of events (i.e when receiving objects from a web API)
 
 # Participating?
 Make your pull requests on feature or bugfix branches.  
