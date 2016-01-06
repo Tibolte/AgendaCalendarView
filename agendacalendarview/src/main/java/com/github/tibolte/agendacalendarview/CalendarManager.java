@@ -196,7 +196,7 @@ public class CalendarManager {
         int maxMonth = mMaxCal.get(Calendar.MONTH);
         int maxYear = mMaxCal.get(Calendar.YEAR);
         // Build another month item and add it to our list, if this value change when we loop through the weeks
-        int tmpMonth = 0;
+        int tmpMonth = -1;
         setToday(Calendar.getInstance(mLocale));
 
         // Loop through the weeks
