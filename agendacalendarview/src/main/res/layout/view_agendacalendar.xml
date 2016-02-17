@@ -6,16 +6,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <com.github.tibolte.agendacalendarview.agenda.AgendaListView
-        android:id="@+id/agenda_listview"
+    <com.github.tibolte.agendacalendarview.agenda.AgendaView
+        android:id="@+id/agenda_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:animationCache="false"
-        android:divider="@color/calendar_divider_color"
-        android:dividerHeight="1dp"
-        android:overScrollMode="never"
-        android:scrollbars="none"
-        android:scrollingCache="false"/>
+        android:layout_height="wrap_content">
+    </com.github.tibolte.agendacalendarview.agenda.AgendaView>
 
     <com.github.tibolte.agendacalendarview.widgets.FloatingActionButton
         android:id="@+id/floating_action_button"

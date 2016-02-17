@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
         Calendar endTime1 = Calendar.getInstance();
         endTime1.add(Calendar.MONTH, 1);
         CalendarEvent event1 = new CalendarEvent("Thibault travels in Iceland", "A wonderful journey!", "Iceland",
-                ContextCompat.getColor(this, R.color.blue_bright), startTime1, endTime1, true);
+                ContextCompat.getColor(this, R.color.orange_dark), startTime1, endTime1, true);
         eventList.add(event1);
 
         Calendar startTime2 = Calendar.getInstance();
@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
         endTime3.set(Calendar.HOUR_OF_DAY, 15);
         endTime3.set(Calendar.MINUTE, 0);
         CalendarEvent event3 = new CalendarEvent("Visit of Harpa", "", "Dalvík",
-                ContextCompat.getColor(this, R.color.blue_darker), startTime3, endTime3, false);
+                ContextCompat.getColor(this, R.color.blue_dark), startTime3, endTime3, false);
         eventList.add(event3);
     }
 
