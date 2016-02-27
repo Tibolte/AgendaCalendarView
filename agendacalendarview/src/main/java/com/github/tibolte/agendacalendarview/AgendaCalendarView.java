@@ -179,6 +179,7 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
             CalendarEvent event = CalendarManager.getInstance().getEvents().get(position);
             if (event != null) {
                 mCalendarView.scrollToDate(event);
+                mCalendarPickerController.onScrollToDate(event.getInstanceDay());
             }
         }
     }

@@ -69,6 +69,13 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
         Log.d(LOG_TAG, String.format("Selected event: %s", event));
     }
 
+    @Override
+    public void onScrollToDate(Calendar calendar) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()));
+        }
+    }
+
     // endregion
 
     // region Private Methods
