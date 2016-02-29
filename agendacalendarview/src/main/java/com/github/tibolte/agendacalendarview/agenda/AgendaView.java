@@ -66,7 +66,7 @@ public class AgendaView extends FrameLayout {
                                             ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
                                             int height = getHeight();
                                             int margin = (int) (getContext().getResources().getDimension(R.dimen.calendar_header_height) + 2 * getContext().getResources().getDimension(R.dimen.day_cell_height));
-                                            layoutParams.height = height;// - margin;
+                                            layoutParams.height = height;
                                             layoutParams.setMargins(0, margin, 0, 0);
                                             setLayoutParams(layoutParams);
 
