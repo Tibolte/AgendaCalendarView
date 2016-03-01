@@ -1,12 +1,6 @@
 package com.github.tibolte.agendacalendarview.agenda;
 
-import com.github.tibolte.agendacalendarview.CalendarManager;
-import com.github.tibolte.agendacalendarview.R;
-import com.github.tibolte.agendacalendarview.utils.BusProvider;
-import com.github.tibolte.agendacalendarview.utils.Events;
-
 import android.animation.Animator;
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
@@ -16,6 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
+
+import com.github.tibolte.agendacalendarview.CalendarManager;
+import com.github.tibolte.agendacalendarview.R;
+import com.github.tibolte.agendacalendarview.utils.BusProvider;
+import com.github.tibolte.agendacalendarview.utils.Events;
 
 public class AgendaView extends FrameLayout {
 
@@ -67,7 +66,7 @@ public class AgendaView extends FrameLayout {
                                             ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
                                             int height = getHeight();
                                             int margin = (int) (getContext().getResources().getDimension(R.dimen.calendar_header_height) + 2 * getContext().getResources().getDimension(R.dimen.day_cell_height));
-                                            layoutParams.height = height - margin;
+                                            layoutParams.height = height;
                                             layoutParams.setMargins(0, margin, 0, 0);
                                             setLayoutParams(layoutParams);
 
