@@ -1,7 +1,5 @@
 package com.github.tibolte.agendacalendarview.models;
 
-import com.github.tibolte.agendacalendarview.weather.models.DataPoint;
-
 import java.util.Calendar;
 
 /**
@@ -151,24 +149,6 @@ public class BaseCalendarEvent implements CalendarEvent {
         this.mTitle = title;
         this.mLocation = "";
         setInstanceDay(day);
-    }
-
-    /**
-     * Constructor for weather information
-     *
-     * @param dataPoint The weather information for this time.
-     */
-    public BaseCalendarEvent(DataPoint dataPoint) {
-        Calendar startTime = Calendar.getInstance();
-        startTime.setTimeInMillis(dataPoint.getTime() * 1000);
-        setStartTime(startTime);
-        Calendar instanceDay = Calendar.getInstance();
-        instanceDay.setTime(getStartTime().getTime());
-        setInstanceDay(instanceDay);
-        setWeather(true);
-        setWeatherIcon(dataPoint.getIcon());
-        setTemperature(dataPoint.getTemperature());
-        setLocation("");
     }
 
     // endregion

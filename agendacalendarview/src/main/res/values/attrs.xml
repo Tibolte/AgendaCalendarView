@@ -9,9 +9,4 @@
         <attr name="calendarCurrentDayTextColor" format="color" />
         <attr name="fabColor" format="color" />
     </declare-styleable>
-    <declare-styleable name="WeatherIconView">
-        <attr name="weatherIconResource" format="string" />
-        <attr name="weatherIconSize" format="integer" />
-        <attr name="weatherIconColor" format="color" />
-    </declare-styleable>
 </resources>

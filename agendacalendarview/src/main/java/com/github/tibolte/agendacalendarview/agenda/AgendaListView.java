@@ -1,7 +1,6 @@
 package com.github.tibolte.agendacalendarview.agenda;
 
 import com.github.tibolte.agendacalendarview.CalendarManager;
-import com.github.tibolte.agendacalendarview.models.BaseCalendarEvent;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
 import com.github.tibolte.agendacalendarview.utils.DateHelper;
 
