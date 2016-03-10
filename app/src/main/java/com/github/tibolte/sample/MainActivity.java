@@ -4,7 +4,7 @@ import com.github.tibolte.agendacalendarview.AgendaCalendarView;
 import com.github.tibolte.agendacalendarview.CalendarPickerController;
 import com.github.tibolte.agendacalendarview.models.BaseCalendarEvent;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
-import com.github.tibolte.agendacalendarview.models.DayItem;
+import com.github.tibolte.agendacalendarview.models.IDayItem;
 
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
     // region Interface - CalendarPickerController
 
     @Override
-    public void onDaySelected(DayItem dayItem) {
+    public void onDaySelected(IDayItem dayItem) {
         Log.d(LOG_TAG, String.format("Selected day: %s", dayItem));
     }
 

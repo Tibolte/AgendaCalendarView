@@ -2,8 +2,8 @@ package com.github.tibolte.agendacalendarview.calendar.weekslist;
 
 import com.github.tibolte.agendacalendarview.CalendarManager;
 import com.github.tibolte.agendacalendarview.R;
-import com.github.tibolte.agendacalendarview.models.DayItem;
-import com.github.tibolte.agendacalendarview.models.WeekItem;
+import com.github.tibolte.agendacalendarview.models.IDayItem;
+import com.github.tibolte.agendacalendarview.models.IWeekItem;
 import com.github.tibolte.agendacalendarview.utils.BusProvider;
 import com.github.tibolte.agendacalendarview.utils.DateHelper;
 import com.github.tibolte.agendacalendarview.utils.Events;
@@ -34,7 +34,7 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
 
     private Context mContext;
     private Calendar mToday;
-    private List<WeekItem> mWeeksList = new ArrayList<>();
+    private List<IWeekItem> mWeeksList = new ArrayList<>();
     private boolean mDragging;
     private boolean mAlphaSet;
     private int mDayTextColor, mPastDayTextColor, mCurrentDayColor;
@@ -51,7 +51,7 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
 
     // endregion
 
-    public void updateWeeksItems(List<WeekItem> weekItems) {
+    public void updateWeeksItems(List<IWeekItem> weekItems) {
         this.mWeeksList.clear();
         this.mWeeksList.addAll(weekItems);
         notifyDataSetChanged();
@@ -59,7 +59,7 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
 
     // region Getters/setters
 
-    public List<WeekItem> getWeeksList() {
+    public List<IWeekItem> getWeeksList() {
         return mWeeksList;
     }
 
@@ -94,7 +94,7 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
 
     @Override
     public void onBindViewHolder(WeekViewHolder weekViewHolder, int position) {
-        WeekItem weekItem = mWeeksList.get(position);
+        IWeekItem weekItem = mWeeksList.get(position);
         weekViewHolder.bindWeek(weekItem, mToday);
     }
 
@@ -124,13 +124,13 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
             setUpChildren(daysContainer);
         }
 
-        public void bindWeek(WeekItem weekItem, Calendar today) {
+        public void bindWeek(IWeekItem weekItem, Calendar today) {
             setUpMonthOverlay();
 
-            List<DayItem> dayItems = weekItem.getDayItems();
+            List<IDayItem> dayItems = weekItem.getDayItems();
 
             for (int c = 0; c < dayItems.size(); c++) {
-                final DayItem dayItem = dayItems.get(c);
+                final IDayItem dayItem = dayItems.get(c);
                 LinearLayout cellItem = mCells.get(c);
                 TextView txtDay = (TextView) cellItem.findViewById(R.id.view_day_day_label);
                 TextView txtMonth = (TextView) cellItem.findViewById(R.id.view_day_month_label);

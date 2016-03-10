@@ -24,13 +24,13 @@ public interface CalendarEvent {
 
     void setInstanceDay(Calendar mInstanceDay);
 
-    DayItem getDayReference();
+    IDayItem getDayReference();
 
-    void setDayReference(DayItem mDayReference);
+    void setDayReference(IDayItem mDayReference);
 
-    WeekItem getWeekReference();
+    IWeekItem getWeekReference();
 
-    void setWeekReference(WeekItem mWeekReference);
+    void setWeekReference(IWeekItem mWeekReference);
 
     CalendarEvent copy();
 }

@@ -12,7 +12,7 @@ import java.util.Date;
 /**
  * Day model class.
  */
-public class DayItem implements Parcelable {
+public class DayItem implements IDayItem {
     private Date mDate;
     private int mValue;
     private int mDayOfTheWeek;
@@ -115,48 +115,6 @@ public class DayItem implements Parcelable {
                 + mValue
                 + '}';
     }
-
-    // region Interface - Parcelable
-
-    protected DayItem(Parcel in) {
-        long tmpMDate = in.readLong();
-        mDate = tmpMDate != -1 ? new Date(tmpMDate) : null;
-        mValue = in.readInt();
-        mDayOfTheWeek = in.readInt();
-        mToday = in.readByte() != 0x00;
-        mFirstDayOfTheMonth = in.readByte() != 0x00;
-        mSelected = in.readByte() != 0x00;
-        mMonth = in.readString();
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(mDate != null ? mDate.getTime() : -1L);
-        dest.writeInt(mValue);
-        dest.writeInt(mDayOfTheWeek);
-        dest.writeByte((byte) (mToday ? 0x01 : 0x00));
-        dest.writeByte((byte) (mFirstDayOfTheMonth ? 0x01 : 0x00));
-        dest.writeByte((byte) (mSelected ? 0x01 : 0x00));
-        dest.writeString(mMonth);
-    }
-
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<DayItem> CREATOR = new Parcelable.Creator<DayItem>() {
-        @Override
-        public DayItem createFromParcel(Parcel in) {
-            return new DayItem(in);
-        }
-
-        @Override
-        public DayItem[] newArray(int size) {
-            return new DayItem[size];
-        }
-    };
 
     // endregion
 }
