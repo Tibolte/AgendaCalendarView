@@ -3,7 +3,8 @@ package com.github.tibolte.agendacalendarview;
 import com.github.tibolte.agendacalendarview.models.BaseCalendarEvent;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
 import com.github.tibolte.agendacalendarview.models.DayItem;
-import com.github.tibolte.agendacalendarview.models.MonthItem;
+import com.github.tibolte.agendacalendarview.models.IDayItem;
+import com.github.tibolte.agendacalendarview.models.IWeekItem;
 import com.github.tibolte.agendacalendarview.models.WeekItem;
 import com.github.tibolte.agendacalendarview.utils.BusProvider;
 import com.github.tibolte.agendacalendarview.utils.DateHelper;
@@ -46,11 +47,11 @@ public class CalendarManager {
     /**
      * List of days used by the calendar
      */
-    private List<DayItem> mDays = new ArrayList<>();
+    private List<IDayItem> mDays = new ArrayList<>();
     /**
      * List of weeks used by the calendar
      */
-    private List<WeekItem> mWeeks = new ArrayList<>();
+    private List<IWeekItem> mWeeks = new ArrayList<>();
     /**
      * List of events instances
      */
@@ -85,7 +86,7 @@ public class CalendarManager {
         return mContext;
     }
 
-    public List<WeekItem> getWeeks() {
+    public List<IWeekItem> getWeeks() {
         return mWeeks;
     }
 
@@ -99,7 +100,7 @@ public class CalendarManager {
         return weekMap;
     }
 
-    public List<DayItem> getDays() {
+    public List<IDayItem> getDays() {
         return mDays;
     }
 
@@ -176,8 +177,8 @@ public class CalendarManager {
             ////
 
 
-            WeekItem weekItem = new WeekItem(currentWeekOfYear, currentYear, date, mMonthHalfNameFormat.format(date), currentMonth);
-            List<DayItem> dayItems = getDayCells(mWeekCounter); // gather days for the built week
+            IWeekItem weekItem = new WeekItem(currentWeekOfYear, currentYear, date, mMonthHalfNameFormat.format(date), currentMonth);
+            List<IDayItem> dayItems = getDayCells(mWeekCounter); // gather days for the built week
             weekItem.setDayItems(dayItems);
             mWeeks.add(weekItem);
 
@@ -195,19 +196,62 @@ public class CalendarManager {
         }
     }
 
-    public void loadEvents(List<CalendarEvent> eventList) {
+    public void loadEvents(List<CalendarEvent> eventList, boolean p) {
 
         SparseArray<List<CalendarEvent>> mapEvents = new SparseArray<>();
         for (CalendarEvent event : eventList) {
             Calendar startTime = event.getStartTime();
-            int eWeekOfYear = startTime.get(Calendar.WEEK_OF_YEAR);
-            int eYear = startTime.get(Calendar.YEAR);
-            int eventWeekId = (eYear * 100) + eWeekOfYear;
+            int eStartWeekOfYear = startTime.get(Calendar.WEEK_OF_YEAR);
+            int eStartYear = startTime.get(Calendar.YEAR);
 
-            int weekPosition = weekMap.get(eventWeekId);
-            WeekItem week = mWeeks.get(weekPosition);
-            int dayOfWeek = startTime.get(Calendar.DAY_OF_WEEK) - 1;
-                DayItem dayItem = week.getDayItems().get(dayOfWeek);
+            Calendar endTime = event.getStartTime();
+
+            int eventStartWeekId = (eStartYear * 100) + eStartWeekOfYear;
+
+            int eEndWeekOfYear = endTime.get(Calendar.WEEK_OF_YEAR);
+            int eEndYear = endTime.get(Calendar.YEAR);
+
+            int eventEndWeekId = (eEndYear * 100) + eEndWeekOfYear;
+
+            if(DateHelper.sameDate(startTime,endTime)) {
+                /// usual case - one time event
+                int weekPosition = weekMap.get(eventStartWeekId);
+                IWeekItem week = mWeeks.get(weekPosition);
+                int startDayOfWeek = startTime.get(Calendar.DAY_OF_WEEK) - 1;
+                IDayItem dayItem = week.getDayItems().get(startDayOfWeek);
+
+                CalendarEvent copy = event.copy();
+
+                Calendar dayInstance = Calendar.getInstance();
+                dayInstance.setTime(dayItem.getDate());
+                copy.setInstanceDay(dayInstance);
+                copy.setDayReference(dayItem);
+                copy.setWeekReference(week);
+                // add instances in chronological order
+                /////
+                int dDayOfyear = dayInstance.get(Calendar.DAY_OF_YEAR);
+                int dYear = dayInstance.get(Calendar.YEAR);
+                int dayId = (dYear * 1000) + dDayOfyear;
+
+                if (mapEvents.indexOfKey(dayId)<0) {
+                    List<CalendarEvent> newList = new ArrayList<>();
+                    newList.add(copy);
+                    mapEvents.put(dayId, newList);
+                } else {
+                    List<CalendarEvent> oldList = mapEvents.get(dayId);
+                    oldList.add(copy);
+                    mapEvents.put(dayId, oldList);
+                }
+            } else if(eventStartWeekId == eventEndWeekId) {
+                //// case same week start and end
+                int weekPosition = weekMap.get(eventStartWeekId);
+                IWeekItem week = mWeeks.get(weekPosition);
+
+                int startDayOfWeek = startTime.get(Calendar.DAY_OF_WEEK) - 1;
+                int endDayofWeek = endTime.get(Calendar.DAY_OF_WEEK) - 1;
+                for (int i = startDayOfWeek; i<=endDayofWeek; i++) {
+
+                    IDayItem dayItem = week.getDayItems().get(i);
 
                     CalendarEvent copy = event.copy();
 
@@ -231,9 +275,114 @@ public class CalendarManager {
                         oldList.add(copy);
                         mapEvents.put(dayId, oldList);
                     }
+                }
+
+            } else {
+                //// a very long event case
+                // do first week from start till end
+
+                int weekStart = weekMap.get(eventStartWeekId);
+                int weekEnd = weekMap.get(eventEndWeekId);
+
+                IWeekItem weekBegin = mWeeks.get(weekStart);
+
+                int startDayOfWeek = startTime.get(Calendar.DAY_OF_WEEK) - 1;
+                int lastDayElement = 6;
+                for (int i = startDayOfWeek; i<=lastDayElement; i++) {
+
+                    IDayItem dayItem = weekBegin.getDayItems().get(i);
+
+                    CalendarEvent copy = event.copy();
+
+                    Calendar dayInstance = Calendar.getInstance();
+                    dayInstance.setTime(dayItem.getDate());
+                    copy.setInstanceDay(dayInstance);
+                    copy.setDayReference(dayItem);
+                    copy.setWeekReference(weekBegin);
+                    // add instances in chronological order
+                    /////
+                    int dDayOfyear = dayInstance.get(Calendar.DAY_OF_YEAR);
+                    int dYear = dayInstance.get(Calendar.YEAR);
+                    int dayId = (dYear * 1000) + dDayOfyear;
+
+                    if (mapEvents.indexOfKey(dayId)<0) {
+                        List<CalendarEvent> newList = new ArrayList<>();
+                        newList.add(copy);
+                        mapEvents.put(dayId, newList);
+                    } else {
+                        List<CalendarEvent> oldList = mapEvents.get(dayId);
+                        oldList.add(copy);
+                        mapEvents.put(dayId, oldList);
+                    }
+                }
+                // do weeks in the middle
+                if(weekEnd - weekStart > 1) {
+                    for (int j = weekStart+1; j<weekEnd;j++) {
+                        IWeekItem weekMiddle = mWeeks.get(j);
+
+                        for (IDayItem dayItem: weekMiddle.getDayItems()) {
+
+                            CalendarEvent copy = event.copy();
+
+                            Calendar dayInstance = Calendar.getInstance();
+                            dayInstance.setTime(dayItem.getDate());
+                            copy.setInstanceDay(dayInstance);
+                            copy.setDayReference(dayItem);
+                            copy.setWeekReference(weekMiddle);
+                            // add instances in chronological order
+                            /////
+                            int dDayOfyear = dayInstance.get(Calendar.DAY_OF_YEAR);
+                            int dYear = dayInstance.get(Calendar.YEAR);
+                            int dayId = (dYear * 1000) + dDayOfyear;
+
+                            if (mapEvents.indexOfKey(dayId)<0) {
+                                List<CalendarEvent> newList = new ArrayList<>();
+                                newList.add(copy);
+                                mapEvents.put(dayId, newList);
+                            } else {
+                                List<CalendarEvent> oldList = mapEvents.get(dayId);
+                                oldList.add(copy);
+                                mapEvents.put(dayId, oldList);
+                            }
+                        }
+                    }
+                }
+                // do last week till the end
+                IWeekItem weekFinish = mWeeks.get(weekEnd);
+
+                int firstDay = 0;
+                int endDayOfWeek = endTime.get(Calendar.DAY_OF_WEEK) - 1;
+                for (int i = firstDay; i<=endDayOfWeek; i++) {
+
+                    IDayItem dayItem = weekFinish.getDayItems().get(i);
+
+                    CalendarEvent copy = event.copy();
+
+                    Calendar dayInstance = Calendar.getInstance();
+                    dayInstance.setTime(dayItem.getDate());
+                    copy.setInstanceDay(dayInstance);
+                    copy.setDayReference(dayItem);
+                    copy.setWeekReference(weekFinish);
+                    // add instances in chronological order
+                    /////
+                    int dDayOfyear = dayInstance.get(Calendar.DAY_OF_YEAR);
+                    int dYear = dayInstance.get(Calendar.YEAR);
+                    int dayId = (dYear * 1000) + dDayOfyear;
+
+                    if (mapEvents.indexOfKey(dayId)<0) {
+                        List<CalendarEvent> newList = new ArrayList<>();
+                        newList.add(copy);
+                        mapEvents.put(dayId, newList);
+                    } else {
+                        List<CalendarEvent> oldList = mapEvents.get(dayId);
+                        oldList.add(copy);
+                        mapEvents.put(dayId, oldList);
+                    }
+                }
+            }
         }
-        for (WeekItem weekItem : mWeeks) {
-            for (DayItem dayItem : weekItem.getDayItems()) {
+        for (IWeekItem weekItem : mWeeks) {
+            for (IDayItem dayItem : weekItem.getDayItems()) {
 
 
                 Calendar dayInstance = Calendar.getInstance();
@@ -259,7 +408,41 @@ public class CalendarManager {
         Log.d(LOG_TAG, "CalendarEventTask finished");
     }
 
-    public void loadCal (Locale locale, SparseIntArray lWeekMap, List<WeekItem> lWeeks, List<DayItem> lDays, List<CalendarEvent> lEvents) {
+    public void loadEvents(List<CalendarEvent> eventList) {
+
+        for (IWeekItem weekItem : getWeeks()) {
+            for (IDayItem dayItem : weekItem.getDayItems()) {
+                boolean isEventForDay = false;
+                for (CalendarEvent event : eventList) {
+                    if (DateHelper.isBetweenInclusive(dayItem.getDate(), event.getStartTime(), event.getEndTime())) {
+                        CalendarEvent copy = event.copy();
+
+                        Calendar dayInstance = Calendar.getInstance();
+                        dayInstance.setTime(dayItem.getDate());
+                        copy.setInstanceDay(dayInstance);
+                        copy.setDayReference(dayItem);
+                        copy.setWeekReference(weekItem);
+                        // add instances in chronological order
+                        getEvents().add(copy);
+                        isEventForDay = true;
+                    }
+                }
+                if (!isEventForDay) {
+                    Calendar dayInstance = Calendar.getInstance();
+                    dayInstance.setTime(dayItem.getDate());
+                    BaseCalendarEvent event = new BaseCalendarEvent(dayInstance, getContext().getResources().getString(R.string.agenda_event_no_events));
+                    event.setDayReference(dayItem);
+                    event.setWeekReference(weekItem);
+                    getEvents().add(event);
+                }
+            }
+        }
+
+        BusProvider.getInstance().send(new Events.EventsFetched());
+        Log.d(LOG_TAG, "CalendarEventTask finished");
+    }
+
+    public void loadCal (Locale locale, SparseIntArray lWeekMap, List<IWeekItem> lWeeks, List<IDayItem> lDays, List<CalendarEvent> lEvents) {
         weekMap = lWeekMap;
         mWeeks = lWeeks;
         mDays = lDays;
@@ -274,10 +457,10 @@ public class CalendarManager {
 
     // region Private methods
 
-    private List<DayItem> getDayCells(Calendar startCal) {
+    private List<IDayItem> getDayCells(Calendar startCal) {
         Calendar cal = Calendar.getInstance(mLocale);
         cal.setTime(startCal.getTime());
-        List<DayItem> dayItems = new ArrayList<>();
+        List<IDayItem> dayItems = new ArrayList<>();
 
         int firstDayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
         int offset = cal.getFirstDayOfWeek() - firstDayOfWeek;
@@ -288,8 +471,7 @@ public class CalendarManager {
 
         Log.d(LOG_TAG, String.format("Buiding row week starting at %s", cal.getTime()));
         for (int c = 0; c < 7; c++) {
-            DayItem dayItem = DayItem.buildDayItemFromCal(cal);
-            dayItem.setDayOftheWeek(c);
+            IDayItem dayItem = DayItem.buildDayItemFromCal(cal);
             dayItems.add(dayItem);
             cal.add(Calendar.DATE, 1);
         }

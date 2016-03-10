@@ -6,13 +6,13 @@ import java.util.List;
 /**
  * Week model class.
  */
-public class WeekItem {
+public class WeekItem implements IWeekItem {
     private int mWeekInYear;
     private int mYear;
     private int mMonth;
     private Date mDate;
     private String mLabel;
-    private List<DayItem> mDayItems;
+    private List<IDayItem> mDayItems;
 
     // region Constructor
 
@@ -68,11 +68,11 @@ public class WeekItem {
         this.mLabel = label;
     }
 
-    public List<DayItem> getDayItems() {
+    public List<IDayItem> getDayItems() {
         return mDayItems;
     }
 
-    public void setDayItems(List<DayItem> dayItems) {
+    public void setDayItems(List<IDayItem> dayItems) {
         this.mDayItems = dayItems;
     }
 
