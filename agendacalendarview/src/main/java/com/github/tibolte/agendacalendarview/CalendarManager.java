@@ -35,6 +35,7 @@ public class CalendarManager {
 
     private Context mContext;
     private Locale mLocale;
+    private Calendar mToday = Calendar.getInstance();
     private SimpleDateFormat mWeekdayFormatter;
     private SimpleDateFormat mMonthHalfNameFormat;
 
@@ -110,6 +111,12 @@ public class CalendarManager {
         return mMonthHalfNameFormat;
     }
 
+    public Calendar getToday() {
+        return mToday;
+    }
+    public void setToday(Calendar today) {
+        this.mToday = today;
+    }
     // endregion
 
     // region Public methods
@@ -293,6 +300,7 @@ public class CalendarManager {
 
     private void setLocale(Locale locale) {
         this.mLocale = locale;
+        setToday(Calendar.getInstance(mLocale));
         mWeekdayFormatter = new SimpleDateFormat(getContext().getString(R.string.day_name_format), mLocale);
         mMonthHalfNameFormat = new SimpleDateFormat(getContext().getString(R.string.month_half_name_format), locale);
     }
