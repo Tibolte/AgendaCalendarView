@@ -170,7 +170,7 @@ public class CalendarManager {
         }
     }
 
-    public void loadEvents(List<CalendarEvent> eventList) {
+    public void loadEvents(List<CalendarEvent> eventList, CalendarEvent noEvent) {
 
         for (IWeekItem weekItem : getWeeks()) {
             for (IDayItem dayItem : weekItem.getDayItems()) {
@@ -192,10 +192,15 @@ public class CalendarManager {
                 if (!isEventForDay) {
                     Calendar dayInstance = Calendar.getInstance();
                     dayInstance.setTime(dayItem.getDate());
-                    BaseCalendarEvent event = new BaseCalendarEvent(dayInstance, getContext().getResources().getString(R.string.agenda_event_no_events));
-                    event.setDayReference(dayItem);
-                    event.setWeekReference(weekItem);
-                    getEvents().add(event);
+                    CalendarEvent copy = noEvent.copy();
+
+                    copy.setInstanceDay(dayInstance);
+                    copy.setDayReference(dayItem);
+                    copy.setWeekReference(weekItem);
+                    copy.setLocation("");
+                    copy.setTitle(getContext().getResources().getString(R.string.agenda_event_no_events));
+                    copy.setPlaceholder(true);
+                    getEvents().add(copy);
                 }
             }
         }

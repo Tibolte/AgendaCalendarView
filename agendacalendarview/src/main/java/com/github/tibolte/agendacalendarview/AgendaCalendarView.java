@@ -3,6 +3,7 @@ package com.github.tibolte.agendacalendarview;
 import com.github.tibolte.agendacalendarview.agenda.AgendaAdapter;
 import com.github.tibolte.agendacalendarview.agenda.AgendaView;
 import com.github.tibolte.agendacalendarview.calendar.CalendarView;
+import com.github.tibolte.agendacalendarview.models.BaseCalendarEvent;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
 import com.github.tibolte.agendacalendarview.models.IDayItem;
 import com.github.tibolte.agendacalendarview.models.IWeekItem;
@@ -202,7 +203,7 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
         mAgendaView.getAgendaListView().setAdapter(agendaAdapter);
         mAgendaView.getAgendaListView().setOnStickyHeaderChangedListener(this);
 
-        CalendarManager.getInstance().loadEvents(eventList);
+        CalendarManager.getInstance().loadEvents(eventList, new BaseCalendarEvent());
         BusProvider.getInstance().send(new Events.EventsFetched());
         Log.d(LOG_TAG, "CalendarEventTask finished");
 

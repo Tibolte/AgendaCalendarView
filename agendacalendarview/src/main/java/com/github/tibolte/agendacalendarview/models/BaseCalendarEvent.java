@@ -106,6 +106,10 @@ public class BaseCalendarEvent implements CalendarEvent {
         this.mEndTime.setTimeInMillis(dateEnd);
     }
 
+    public BaseCalendarEvent() {
+
+    }
+
     /**
      * Initializes the event
      * @param title The title of the event.
@@ -136,19 +140,6 @@ public class BaseCalendarEvent implements CalendarEvent {
         this.mLocation = calendarEvent.getLocation();
         this.mStartTime = calendarEvent.getStartTime();
         this.mEndTime = calendarEvent.getEndTime();
-    }
-
-    /**
-     * Constructor for placeholder events, used if there are no events during one dat
-     *
-     * @param day   The instance day of the event.
-     * @param title The title of the event.
-     */
-    public BaseCalendarEvent(Calendar day, String title) {
-        this.mPlaceHolder = true;
-        this.mTitle = title;
-        this.mLocation = "";
-        setInstanceDay(day);
     }
 
     // endregion
@@ -198,6 +189,12 @@ public class BaseCalendarEvent implements CalendarEvent {
 
     public void setEndTime(Calendar mEndTime) {
         this.mEndTime = mEndTime;
+    }
+    public void setPlaceholder(boolean placeholder) {
+        mPlaceHolder = placeholder;
+    }
+    public boolean isPlaceholder() {
+        return mPlaceHolder;
     }
 
     public long getId() {
