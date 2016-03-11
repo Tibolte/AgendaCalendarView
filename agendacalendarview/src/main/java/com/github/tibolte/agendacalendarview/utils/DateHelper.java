@@ -2,7 +2,7 @@ package com.github.tibolte.agendacalendarview.utils;
 
 import com.github.tibolte.agendacalendarview.CalendarManager;
 import com.github.tibolte.agendacalendarview.R;
-import com.github.tibolte.agendacalendarview.models.WeekItem;
+import com.github.tibolte.agendacalendarview.models.IWeekItem;
 
 import android.content.Context;
 
@@ -75,7 +75,7 @@ public class DateHelper {
      * @param week The WeekItem instance to compare to.
      * @return True if both instances are in the same week.
      */
-    public static boolean sameWeek(Calendar cal, WeekItem week) {
+    public static boolean sameWeek(Calendar cal, IWeekItem week) {
         return (cal.get(Calendar.WEEK_OF_YEAR) == week.getWeekInYear() && cal.get(Calendar.YEAR) == week.getYear());
     }
 

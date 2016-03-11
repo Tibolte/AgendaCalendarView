@@ -5,8 +5,8 @@ import com.github.tibolte.agendacalendarview.R;
 import com.github.tibolte.agendacalendarview.calendar.weekslist.WeekListView;
 import com.github.tibolte.agendacalendarview.calendar.weekslist.WeeksAdapter;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
-import com.github.tibolte.agendacalendarview.models.DayItem;
-import com.github.tibolte.agendacalendarview.models.WeekItem;
+import com.github.tibolte.agendacalendarview.models.IDayItem;
+import com.github.tibolte.agendacalendarview.models.IWeekItem;
 import com.github.tibolte.agendacalendarview.utils.BusProvider;
 import com.github.tibolte.agendacalendarview.utils.DateHelper;
 import com.github.tibolte.agendacalendarview.utils.Events;
@@ -49,7 +49,7 @@ public class CalendarView extends LinearLayout {
     /**
      * The current highlighted day in blue
      */
-    private DayItem mSelectedDay;
+    private IDayItem mSelectedDay;
     /**
      * The current row displayed at top of the list
      */
@@ -73,11 +73,11 @@ public class CalendarView extends LinearLayout {
 
     // endregion
 
-    public DayItem getSelectedDay() {
+    public IDayItem getSelectedDay() {
         return mSelectedDay;
     }
 
-    public void setSelectedDay(DayItem mSelectedDay) {
+    public void setSelectedDay(IDayItem mSelectedDay) {
         this.mSelectedDay = mSelectedDay;
     }
 
@@ -137,7 +137,7 @@ public class CalendarView extends LinearLayout {
         Calendar today = calendarManager.getToday();
         Locale locale = calendarManager.getLocale();
         SimpleDateFormat weekDayFormatter = calendarManager.getWeekdayFormatter();
-        List<WeekItem> weeks = calendarManager.getWeeks();
+        List<IWeekItem> weeks = calendarManager.getWeeks();
 
         setUpHeader(today, weekDayFormatter, locale);
         setUpAdapter(today, weeks, dayTextColor, currentDayTextColor, pastDayTextColor);
@@ -153,12 +153,11 @@ public class CalendarView extends LinearLayout {
         mListViewWeeks.post(()->scrollToPosition(updateSelectedDay(calendarEvent.getInstanceDay(), calendarEvent.getDayReference())));
     }
 
-    public void scrollToDate(Calendar today, List<WeekItem> weeks) {
+    public void scrollToDate(Calendar today, List<IWeekItem> weeks) {
         Integer currentWeekIndex = null;
-        Calendar scrollToCal = today;
 
         for (int c = 0; c < weeks.size(); c++) {
-            if (DateHelper.sameWeek(scrollToCal, weeks.get(c))) {
+            if (DateHelper.sameWeek(today, weeks.get(c))) {
                 currentWeekIndex = c;
                 break;
             }
@@ -191,7 +190,7 @@ public class CalendarView extends LinearLayout {
     /**
      * Creates a new adapter if necessary and sets up its parameters.
      */
-    private void setUpAdapter(Calendar today, List<WeekItem> weeks, int dayTextColor, int currentDayTextColor, int pastDayTextColor) {
+    private void setUpAdapter(Calendar today, List<IWeekItem> weeks, int dayTextColor, int currentDayTextColor, int pastDayTextColor) {
         if (mWeeksAdapter == null) {
             Log.d(LOG_TAG, "Setting adapter with today's calendar: " + today.toString());
             mWeeksAdapter = new WeeksAdapter(getContext(), today, dayTextColor, currentDayTextColor, pastDayTextColor);
@@ -223,15 +222,13 @@ public class CalendarView extends LinearLayout {
 
     private void expandCalendarView() {
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
-        int height = (int) (getResources().getDimension(R.dimen.calendar_header_height) + 5 * getResources().getDimension(R.dimen.day_cell_height));
-        layoutParams.height = height;
+        layoutParams.height = (int) (getResources().getDimension(R.dimen.calendar_header_height) + 5 * getResources().getDimension(R.dimen.day_cell_height));
         setLayoutParams(layoutParams);
     }
 
     private void collapseCalendarView() {
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) getLayoutParams();
-        int height = (int) (getResources().getDimension(R.dimen.calendar_header_height) + 2 * getResources().getDimension(R.dimen.day_cell_height));
-        layoutParams.height = height;
+        layoutParams.height = (int) (getResources().getDimension(R.dimen.calendar_header_height) + 2 * getResources().getDimension(R.dimen.day_cell_height));
         setLayoutParams(layoutParams);
     }
 
@@ -242,9 +239,8 @@ public class CalendarView extends LinearLayout {
      * @param dayItem  The DayItem information held by the cell item.
      * @return The selected row of the weeks list, to be updated.
      */
-    private int updateSelectedDay(Calendar calendar, DayItem dayItem) {
+    private int updateSelectedDay(Calendar calendar, IDayItem dayItem) {
         Integer currentWeekIndex = null;
-        Calendar scrollToCal = calendar;
 
         // update highlighted/selected day
         if (!dayItem.equals(getSelectedDay())) {
@@ -256,7 +252,7 @@ public class CalendarView extends LinearLayout {
         }
 
         for (int c = 0; c < CalendarManager.getInstance().getWeeks().size(); c++) {
-            if (DateHelper.sameWeek(scrollToCal, CalendarManager.getInstance().getWeeks().get(c))) {
+            if (DateHelper.sameWeek(calendar, CalendarManager.getInstance().getWeeks().get(c))) {
                 currentWeekIndex = c;
                 break;
             }
