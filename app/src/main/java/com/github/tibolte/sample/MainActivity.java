@@ -1,10 +1,12 @@
 package com.github.tibolte.sample;
 
 import com.github.tibolte.agendacalendarview.AgendaCalendarView;
+import com.github.tibolte.agendacalendarview.CalendarManager;
 import com.github.tibolte.agendacalendarview.CalendarPickerController;
 import com.github.tibolte.agendacalendarview.models.BaseCalendarEvent;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
-import com.github.tibolte.agendacalendarview.models.DayItem;
+import com.github.tibolte.agendacalendarview.models.IDayItem;
+import com.github.tibolte.agendacalendarview.models.IWeekItem;
 
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -50,9 +52,26 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
 
         List<CalendarEvent> eventList = new ArrayList<>();
         mockList(eventList);
-
+        // Sync way
+        /*
         mAgendaCalendarView.init(eventList, minDate, maxDate, Locale.getDefault(), this);
         mAgendaCalendarView.addEventRenderer(new DrawableEventRenderer());
+        */
+        //Async way
+
+
+        //////// This can be done once in another thread
+        CalendarManager calendarManager = CalendarManager.getInstance(getApplicationContext());
+        calendarManager.buildCal(minDate, maxDate, Locale.getDefault());
+        calendarManager.loadEvents(eventList);
+        ////////
+
+        List<CalendarEvent> readyEvents = calendarManager.getEvents();
+        List<IDayItem> readyDays = calendarManager.getDays();
+        List<IWeekItem> readyWeeks = calendarManager.getWeeks();
+        mAgendaCalendarView.init(Locale.getDefault(), readyWeeks,readyDays,readyEvents,this);
+        mAgendaCalendarView.addEventRenderer(new DrawableEventRenderer());
+
     }
 
     // endregion
@@ -60,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
     // region Interface - CalendarPickerController
 
     @Override
-    public void onDaySelected(DayItem dayItem) {
+    public void onDaySelected(IDayItem dayItem) {
         Log.d(LOG_TAG, String.format("Selected day: %s", dayItem));
     }
 
