@@ -29,4 +29,6 @@ public interface IWeekItem {
     List<IDayItem> getDayItems();
 
     void setDayItems(List<IDayItem> dayItems);
+
+    IWeekItem copy();
 }

@@ -1,11 +1,8 @@
 package com.github.tibolte.agendacalendarview;
 
-import com.github.tibolte.agendacalendarview.models.BaseCalendarEvent;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
-import com.github.tibolte.agendacalendarview.models.DayItem;
 import com.github.tibolte.agendacalendarview.models.IDayItem;
 import com.github.tibolte.agendacalendarview.models.IWeekItem;
-import com.github.tibolte.agendacalendarview.models.WeekItem;
 import com.github.tibolte.agendacalendarview.utils.DateHelper;
 
 import android.content.Context;
@@ -34,6 +31,10 @@ public class CalendarManager {
     private Calendar mToday = Calendar.getInstance();
     private SimpleDateFormat mWeekdayFormatter;
     private SimpleDateFormat mMonthHalfNameFormat;
+
+    /// instances of classes provided from outside
+    private IDayItem mCleanDay;
+    private IWeekItem mCleanWeek;
 
     /**
      * List of days used by the calendar
@@ -109,7 +110,7 @@ public class CalendarManager {
 
     // region Public methods
 
-    public void buildCal(Calendar minDate, Calendar maxDate, Locale locale) {
+    public void buildCal(Calendar minDate, Calendar maxDate, Locale locale, IDayItem cleanDay, IWeekItem cleanWeek) {
         if (minDate == null || maxDate == null) {
             throw new IllegalArgumentException(
                     "minDate and maxDate must be non-null.");
@@ -127,6 +128,9 @@ public class CalendarManager {
         mDays.clear();
         mWeeks.clear();
         mEvents.clear();
+
+        mCleanDay = cleanDay;
+        mCleanWeek = cleanWeek;
 
         Calendar mMinCal = Calendar.getInstance(mLocale);
         Calendar mMaxCal = Calendar.getInstance(mLocale);
@@ -156,7 +160,12 @@ public class CalendarManager {
             // Build our week list
             int currentWeekOfYear = mWeekCounter.get(Calendar.WEEK_OF_YEAR);
 
-            IWeekItem weekItem = new WeekItem(currentWeekOfYear, currentYear, date, mMonthHalfNameFormat.format(date), currentMonth);
+            IWeekItem weekItem = cleanWeek.copy();
+            weekItem.setWeekInYear(currentWeekOfYear);
+            weekItem.setYear(currentYear);
+            weekItem.setDate(date);
+            weekItem.setMonth(currentMonth);
+            weekItem.setLabel(mMonthHalfNameFormat.format(date));
             List<IDayItem> dayItems = getDayCells(mWeekCounter); // gather days for the built week
             weekItem.setDayItems(dayItems);
             mWeeks.add(weekItem);
@@ -231,7 +240,8 @@ public class CalendarManager {
 
         Log.d(LOG_TAG, String.format("Buiding row week starting at %s", cal.getTime()));
         for (int c = 0; c < 7; c++) {
-            IDayItem dayItem = DayItem.buildDayItemFromCal(cal);
+            IDayItem dayItem = mCleanDay.copy();
+            dayItem.buildDayItemFromCal(cal);
             dayItems.add(dayItem);
             cal.add(Calendar.DATE, 1);
         }

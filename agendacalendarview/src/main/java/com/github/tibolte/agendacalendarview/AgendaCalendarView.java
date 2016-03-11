@@ -5,8 +5,10 @@ import com.github.tibolte.agendacalendarview.agenda.AgendaView;
 import com.github.tibolte.agendacalendarview.calendar.CalendarView;
 import com.github.tibolte.agendacalendarview.models.BaseCalendarEvent;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
+import com.github.tibolte.agendacalendarview.models.DayItem;
 import com.github.tibolte.agendacalendarview.models.IDayItem;
 import com.github.tibolte.agendacalendarview.models.IWeekItem;
+import com.github.tibolte.agendacalendarview.models.WeekItem;
 import com.github.tibolte.agendacalendarview.render.DefaultEventRenderer;
 import com.github.tibolte.agendacalendarview.render.EventRenderer;
 import com.github.tibolte.agendacalendarview.utils.BusProvider;
@@ -193,7 +195,7 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
     public void init(List<CalendarEvent> eventList, Calendar minDate, Calendar maxDate, Locale locale, CalendarPickerController calendarPickerController) {
         mCalendarPickerController = calendarPickerController;
 
-        CalendarManager.getInstance(getContext()).buildCal(minDate, maxDate, locale);
+        CalendarManager.getInstance(getContext()).buildCal(minDate, maxDate, locale, new DayItem(), new WeekItem());
 
         // Feed our views with weeks list and events
         mCalendarView.init(CalendarManager.getInstance(getContext()), mCalendarDayTextColor, mCalendarCurrentDayColor, mCalendarPastDayTextColor);

@@ -26,7 +26,20 @@ public class DayItem implements IDayItem {
         this.mToday = today;
         this.mMonth = month;
     }
+    // only for cleanDay
+    public DayItem() {
 
+    }
+    public DayItem(DayItem original) {
+
+        this.mDate = original.getDate();
+        this.mValue = original.getValue();
+        this.mToday = original.isToday();
+        this.mDayOfTheWeek = original.getDayOftheWeek();
+        this.mFirstDayOfTheMonth = original.isFirstDayOfTheMonth();
+        this.mSelected = original.isSelected();
+        this.mMonth = original.getMonth();
+    }
     // endregion
 
     // region Getters/Setters
@@ -89,16 +102,16 @@ public class DayItem implements IDayItem {
 
     // region Public methods
 
-    public static DayItem buildDayItemFromCal(Calendar calendar) {
+    public void buildDayItemFromCal(Calendar calendar) {
         Date date = calendar.getTime();
-        boolean isToday = DateHelper.sameDate(calendar, CalendarManager.getInstance().getToday());
-        int value = calendar.get(Calendar.DAY_OF_MONTH);
-        DayItem dayItem = new DayItem(date, value, isToday, CalendarManager.getInstance().getMonthHalfNameFormat().format(date));
-        if (value == 1) {
-            dayItem.setFirstDayOfTheMonth(true);
+        this.mDate = date;
+
+        this.mValue = calendar.get(Calendar.DAY_OF_MONTH);
+        this.mToday = DateHelper.sameDate(calendar, CalendarManager.getInstance().getToday());
+        this.mMonth = CalendarManager.getInstance().getMonthHalfNameFormat().format(date);
+        if (this.mValue == 1) {
+            this.mFirstDayOfTheMonth = true;
         }
-        dayItem.setToday(isToday);
-        return dayItem;
     }
 
     // endregion
@@ -111,6 +124,11 @@ public class DayItem implements IDayItem {
                 + ", value="
                 + mValue
                 + '}';
+    }
+
+    @Override
+    public IDayItem copy() {
+        return new DayItem(this);
     }
 
     // endregion

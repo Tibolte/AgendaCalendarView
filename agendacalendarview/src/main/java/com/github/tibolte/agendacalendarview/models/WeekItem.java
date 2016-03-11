@@ -23,6 +23,18 @@ public class WeekItem implements IWeekItem {
         this.mLabel = label;
         this.mMonth = month;
     }
+    public WeekItem(WeekItem original) {
+        this.mWeekInYear = original.getWeekInYear();
+        this.mYear = original.getYear();
+        this.mMonth = original.getMonth();
+        this.mDate = original.getDate();
+        this.mLabel = original.getLabel();
+        this.mDayItems = original.getDayItems();
+    }
+
+    public WeekItem(){
+
+    }
 
     // endregion
 
@@ -74,6 +86,11 @@ public class WeekItem implements IWeekItem {
 
     public void setDayItems(List<IDayItem> dayItems) {
         this.mDayItems = dayItems;
+    }
+
+    @Override
+    public IWeekItem copy() {
+        return new WeekItem(this);
     }
 
     // endregion

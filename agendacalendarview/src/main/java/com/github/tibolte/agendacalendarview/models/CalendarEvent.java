@@ -9,9 +9,9 @@ public interface CalendarEvent {
 
     boolean isPlaceholder();
 
-    String getLocation();
+    public String getLocation();
 
-    void setLocation(String mLocation);
+    public void setLocation(String mLocation);
 
     long getId();
 

@@ -5,8 +5,10 @@ import com.github.tibolte.agendacalendarview.CalendarManager;
 import com.github.tibolte.agendacalendarview.CalendarPickerController;
 import com.github.tibolte.agendacalendarview.models.BaseCalendarEvent;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
+import com.github.tibolte.agendacalendarview.models.DayItem;
 import com.github.tibolte.agendacalendarview.models.IDayItem;
 import com.github.tibolte.agendacalendarview.models.IWeekItem;
+import com.github.tibolte.agendacalendarview.models.WeekItem;
 
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -62,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
 
         //////// This can be done once in another thread
         CalendarManager calendarManager = CalendarManager.getInstance(getApplicationContext());
-        calendarManager.buildCal(minDate, maxDate, Locale.getDefault());
+        calendarManager.buildCal(minDate, maxDate, Locale.getDefault(), new DayItem(), new WeekItem());
         calendarManager.loadEvents(eventList, new BaseCalendarEvent());
         ////////
 
