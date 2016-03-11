@@ -61,11 +61,7 @@ public class DateHelper {
         Calendar selectedCal = Calendar.getInstance();
         selectedCal.setTime(selectedDate);
         // Check if we deal with the same day regarding startCal and endCal
-        if (sameDate(selectedCal, startCal)) {
-            return true;
-        } else {
-            return selectedCal.after(startCal) && selectedCal.before(endCal);
-        }
+        return sameDate(selectedCal, startCal) || selectedCal.after(startCal) && selectedCal.before(endCal);
     }
 
     /**

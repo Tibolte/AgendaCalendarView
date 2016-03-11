@@ -3,9 +3,6 @@ package com.github.tibolte.agendacalendarview.models;
 import com.github.tibolte.agendacalendarview.CalendarManager;
 import com.github.tibolte.agendacalendarview.utils.DateHelper;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.util.Calendar;
 import java.util.Date;
 

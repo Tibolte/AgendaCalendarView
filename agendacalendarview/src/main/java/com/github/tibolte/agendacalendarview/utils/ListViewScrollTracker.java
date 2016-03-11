@@ -43,7 +43,7 @@ public class ListViewScrollTracker {
         SparseArray<Integer> previousPositions = mPositions;
 
         // Store new positions
-        mPositions = new SparseArray<Integer>();
+        mPositions = new SparseArray<>();
         for (int i = 0; i < visibleItemCount; i++) {
             mPositions.put(firstVisiblePosition + i, mListView.getListChildAt(i).getTop());
         }
