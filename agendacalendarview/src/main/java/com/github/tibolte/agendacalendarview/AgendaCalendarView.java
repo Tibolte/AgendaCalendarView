@@ -4,6 +4,8 @@ import com.github.tibolte.agendacalendarview.agenda.AgendaAdapter;
 import com.github.tibolte.agendacalendarview.agenda.AgendaView;
 import com.github.tibolte.agendacalendarview.calendar.CalendarView;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
+import com.github.tibolte.agendacalendarview.models.IDayItem;
+import com.github.tibolte.agendacalendarview.models.IWeekItem;
 import com.github.tibolte.agendacalendarview.render.DefaultEventRenderer;
 import com.github.tibolte.agendacalendarview.render.EventRenderer;
 import com.github.tibolte.agendacalendarview.utils.BusProvider;
@@ -199,7 +201,31 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
         AgendaAdapter agendaAdapter = new AgendaAdapter(mAgendaCurrentDayTextColor);
         mAgendaView.getAgendaListView().setAdapter(agendaAdapter);
         mAgendaView.getAgendaListView().setOnStickyHeaderChangedListener(this);
+
         CalendarManager.getInstance().loadEvents(eventList);
+        BusProvider.getInstance().send(new Events.EventsFetched());
+        Log.d(LOG_TAG, "CalendarEventTask finished");
+
+        // add default event renderer
+        addEventRenderer(new DefaultEventRenderer());
+    }
+
+    public void init(Locale locale, List<IWeekItem> lWeeks, List<IDayItem> lDays, List<CalendarEvent> lEvents, CalendarPickerController calendarPickerController) {
+        mCalendarPickerController = calendarPickerController;
+
+        CalendarManager.getInstance(getContext()).loadCal(locale, lWeeks, lDays, lEvents);
+
+        // Feed our views with weeks list and events
+        mCalendarView.init(CalendarManager.getInstance(getContext()), mCalendarDayTextColor, mCalendarCurrentDayColor, mCalendarPastDayTextColor);
+
+        // Load agenda events and scroll to current day
+        AgendaAdapter agendaAdapter = new AgendaAdapter(mAgendaCurrentDayTextColor);
+        mAgendaView.getAgendaListView().setAdapter(agendaAdapter);
+        mAgendaView.getAgendaListView().setOnStickyHeaderChangedListener(this);
+
+        // notify that actually everything is loaded
+        BusProvider.getInstance().send(new Events.EventsFetched());
+        Log.d(LOG_TAG, "CalendarEventTask finished");
 
         // add default event renderer
         addEventRenderer(new DefaultEventRenderer());
