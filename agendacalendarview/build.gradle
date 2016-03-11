@@ -44,6 +44,6 @@ dependencies {
     compile 'com.android.support:design:23.2.0'
 
     // other libraries
-    compile 'se.emilsjolander:stickylistheaders:2.5.2'
-    compile 'io.reactivex:rxjava:1.0.16'
+    compile 'se.emilsjolander:stickylistheaders:2.7.0'
+    compile 'io.reactivex:rxjava:1.1.1'
 }
