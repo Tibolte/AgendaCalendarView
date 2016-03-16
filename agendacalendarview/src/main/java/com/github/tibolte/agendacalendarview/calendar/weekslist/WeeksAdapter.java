@@ -126,7 +126,6 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
 
         public void bindWeek(IWeekItem weekItem, Calendar today) {
             setUpMonthOverlay();
-
             List<IDayItem> dayItems = weekItem.getDayItems();
 
             for (int c = 0; c < dayItems.size(); c++) {
@@ -155,15 +154,15 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
                     txtDay.setTypeface(null, Typeface.BOLD);
                     txtMonth.setTypeface(null, Typeface.BOLD);
                 }
-
+                boolean isToday = DateHelper.sameDate(today, dayItem.getDate());
                 // Check if this day is in the past
-                if (today.getTime().after(dayItem.getDate()) && !DateHelper.sameDate(today, dayItem.getDate())) {
+                if (today.getTime().after(dayItem.getDate()) && !isToday) {
                     txtDay.setTextColor(mPastDayTextColor);
                     txtMonth.setTextColor(mPastDayTextColor);
                 }
 
                 // Highlight the cell if this day is today
-                if (dayItem.isToday() && !dayItem.isSelected()) {
+                if (isToday && !dayItem.isSelected()) {
                     txtDay.setTextColor(mCurrentDayColor);
                 }
 
