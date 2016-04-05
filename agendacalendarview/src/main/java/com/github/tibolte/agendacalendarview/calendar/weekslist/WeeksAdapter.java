@@ -175,6 +175,13 @@ public class WeeksAdapter extends RecyclerView.Adapter<WeeksAdapter.WeekViewHold
                     drawable.setStroke((int) (1 * Resources.getSystem().getDisplayMetrics().density), mDayTextColor);
                 }
 
+                // checks if the day has event and accordingly highlights the day in the calender
+				if(dayItem.hasEvent()) {
+                    circleView.setBackgroundResource(R.drawable.event_color_circle_filled);
+                    circleView.setVisibility(View.VISIBLE);
+                } else {
+                    circleView.setBackgroundResource(R.drawable.event_color_circle);
+                }
                 // Check if the month label has to be displayed
                 if (dayItem.getValue() == 15) {
                     mTxtMonth.setVisibility(View.VISIBLE);

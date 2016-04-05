@@ -144,7 +144,7 @@ public class CalendarManager {
 
     // region Public methods
 
-    public void buildCal(Calendar minDate, Calendar maxDate, Locale locale) {
+    public void buildCal(Calendar minDate, Calendar maxDate, Locale locale, List<CalendarEvent> events) {
         if (minDate == null || maxDate == null) {
             throw new IllegalArgumentException(
                     "minDate and maxDate must be non-null.");
@@ -196,7 +196,7 @@ public class CalendarManager {
 
             // Build our week list
             WeekItem weekItem = new WeekItem(mWeekCounter.get(Calendar.WEEK_OF_YEAR), mWeekCounter.get(Calendar.YEAR), date, mMonthHalfNameFormat.format(date), mWeekCounter.get(Calendar.MONTH));
-            List<DayItem> dayItems = getDayCells(mWeekCounter); // gather days for the built week
+            List<DayItem> dayItems = getDayCells(mWeekCounter, events); // gather days for the built week
             weekItem.setDayItems(dayItems);
             getWeeks().add(weekItem);
             addWeekToLastMonth(weekItem);
@@ -247,7 +247,7 @@ public class CalendarManager {
 
     // region Private methods
 
-    private List<DayItem> getDayCells(Calendar startCal) {
+    private List<DayItem> getDayCells(Calendar startCal, List<CalendarEvent> events) {
         Calendar cal = Calendar.getInstance(mLocale);
         cal.setTime(startCal.getTime());
         List<DayItem> dayItems = new ArrayList<>();
@@ -261,7 +261,7 @@ public class CalendarManager {
 
         Log.d(LOG_TAG, String.format("Buiding row week starting at %s", cal.getTime()));
         for (int c = 0; c < 7; c++) {
-            DayItem dayItem = DayItem.buildDayItemFromCal(cal);
+            DayItem dayItem = DayItem.buildDayItemFromCal(cal, events);
             dayItem.setDayOftheWeek(c);
             dayItems.add(dayItem);
             cal.add(Calendar.DATE, 1);

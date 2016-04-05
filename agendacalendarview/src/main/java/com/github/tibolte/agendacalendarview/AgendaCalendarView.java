@@ -190,7 +190,7 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
     public void init(List<CalendarEvent> eventList, Calendar minDate, Calendar maxDate, Locale locale, CalendarPickerController calendarPickerController) {
         mCalendarPickerController = calendarPickerController;
 
-        CalendarManager.getInstance(getContext()).buildCal(minDate, maxDate, locale);
+        CalendarManager.getInstance(getContext()).buildCal(minDate, maxDate, locale, eventList);
 
         // Feed our views with weeks list and events
         mCalendarView.init(CalendarManager.getInstance(getContext()), mCalendarDayTextColor, mCalendarCurrentDayColor, mCalendarPastDayTextColor);
