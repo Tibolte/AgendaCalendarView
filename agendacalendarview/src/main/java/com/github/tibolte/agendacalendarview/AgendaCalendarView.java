@@ -222,5 +222,13 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
         }
     }
 
+    public void enableFloatingIndicator(boolean enable) {
+        if (enable) {
+            mFloatingActionButton.setVisibility(VISIBLE);
+        } else {
+            mFloatingActionButton.setVisibility(GONE);
+        }
+    }
+
     // endregion
 }
