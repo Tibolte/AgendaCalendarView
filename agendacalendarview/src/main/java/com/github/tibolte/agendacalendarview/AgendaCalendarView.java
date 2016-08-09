@@ -211,23 +211,13 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
     }
 
     public void enableCalenderView(boolean enable) {
-        if (enable) {
-            mCalendarView.setVisibility(VISIBLE);
-            mAgendaView.findViewById(R.id.view_shadow).setVisibility(VISIBLE);
-            mAgendaView.enablePlaceholderForCalendar(true);
-        } else {
-            mCalendarView.setVisibility(GONE);
-            mAgendaView.findViewById(R.id.view_shadow).setVisibility(GONE);
-            mAgendaView.enablePlaceholderForCalendar(false);
-        }
+        mAgendaView.enablePlaceholderForCalendar(enable);
+        mCalendarView.setVisibility(enable ? VISIBLE : GONE);
+        mAgendaView.findViewById(R.id.view_shadow).setVisibility(enable ? VISIBLE : GONE);
     }
 
     public void enableFloatingIndicator(boolean enable) {
-        if (enable) {
-            mFloatingActionButton.setVisibility(VISIBLE);
-        } else {
-            mFloatingActionButton.setVisibility(GONE);
-        }
+        mFloatingActionButton.setVisibility(enable ? VISIBLE : GONE);
     }
 
     // endregion
