@@ -51,7 +51,7 @@ public class AgendaHeaderView extends LinearLayout {
 
         Calendar today = CalendarManager.getInstance().getToday();
 
-        SimpleDateFormat dayWeekFormatter = new SimpleDateFormat("E");
+        SimpleDateFormat dayWeekFormatter =  new SimpleDateFormat(getContext().getString(R.string.day_name_format), CalendarManager.getInstance().getLocale());;
 
         txtDayOfMonth.setTextColor(getResources().getColor(R.color.calendar_text_default));
         txtDayOfWeek.setTextColor(getResources().getColor(R.color.calendar_text_default));

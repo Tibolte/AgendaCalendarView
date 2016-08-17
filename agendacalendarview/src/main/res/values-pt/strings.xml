@@ -1,0 +1,13 @@
+<resources>
+    <!-- Agenda -->
+    <string name="today">Hoje</string>
+    <string name="tomorrow">Manhã</string>
+    <string name="agenda_event_day_duration">d</string>
+    <string name="agenda_event_all_day">Dia todo</string>
+    <string name="agenda_event_no_events">Sem eventos</string>
+
+    <!-- Weather -->
+    <string name="morning">Manhã</string>
+    <string name="afternoon">Tarde</string>
+    <string name="evening">Noite</string>
+</resources>

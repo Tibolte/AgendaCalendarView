@@ -1,21 +1,5 @@
 package com.github.tibolte.agendacalendarview;
 
-import com.github.tibolte.agendacalendarview.agenda.AgendaAdapter;
-import com.github.tibolte.agendacalendarview.agenda.AgendaView;
-import com.github.tibolte.agendacalendarview.calendar.CalendarView;
-import com.github.tibolte.agendacalendarview.models.BaseCalendarEvent;
-import com.github.tibolte.agendacalendarview.models.CalendarEvent;
-import com.github.tibolte.agendacalendarview.models.DayItem;
-import com.github.tibolte.agendacalendarview.models.IDayItem;
-import com.github.tibolte.agendacalendarview.models.IWeekItem;
-import com.github.tibolte.agendacalendarview.models.WeekItem;
-import com.github.tibolte.agendacalendarview.render.DefaultEventRenderer;
-import com.github.tibolte.agendacalendarview.render.EventRenderer;
-import com.github.tibolte.agendacalendarview.utils.BusProvider;
-import com.github.tibolte.agendacalendarview.utils.Events;
-import com.github.tibolte.agendacalendarview.utils.ListViewScrollTracker;
-import com.github.tibolte.agendacalendarview.widgets.FloatingActionButton;
-
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
@@ -31,6 +15,22 @@ import android.view.animation.RotateAnimation;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
+
+import com.github.tibolte.agendacalendarview.agenda.AgendaAdapter;
+import com.github.tibolte.agendacalendarview.agenda.AgendaView;
+import com.github.tibolte.agendacalendarview.calendar.CalendarView;
+import com.github.tibolte.agendacalendarview.models.BaseCalendarEvent;
+import com.github.tibolte.agendacalendarview.models.CalendarEvent;
+import com.github.tibolte.agendacalendarview.models.DayItem;
+import com.github.tibolte.agendacalendarview.models.IDayItem;
+import com.github.tibolte.agendacalendarview.models.IWeekItem;
+import com.github.tibolte.agendacalendarview.models.WeekItem;
+import com.github.tibolte.agendacalendarview.render.DefaultEventRenderer;
+import com.github.tibolte.agendacalendarview.render.EventRenderer;
+import com.github.tibolte.agendacalendarview.utils.BusProvider;
+import com.github.tibolte.agendacalendarview.utils.Events;
+import com.github.tibolte.agendacalendarview.utils.ListViewScrollTracker;
+import com.github.tibolte.agendacalendarview.widgets.FloatingActionButton;
 
 import java.util.Calendar;
 import java.util.List;
@@ -123,7 +123,7 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
         mCalendarView.findViewById(R.id.cal_day_names).setBackgroundColor(mCalendarHeaderColor);
         mCalendarView.findViewById(R.id.list_week).setBackgroundColor(mCalendarBackgroundColor);
 
-        mAgendaView.getAgendaListView().setOnItemClickListener((AdapterView<?> parent, View view, int position, long id)->{
+        mAgendaView.getAgendaListView().setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
             mCalendarPickerController.onEventSelected(CalendarManager.getInstance().getEvents().get(position));
         });
 
@@ -237,6 +237,16 @@ public class AgendaCalendarView extends FrameLayout implements StickyListHeaders
     public void addEventRenderer(@NonNull final EventRenderer<?> renderer) {
         AgendaAdapter adapter = (AgendaAdapter) mAgendaView.getAgendaListView().getAdapter();
         adapter.addEventRenderer(renderer);
+    }
+
+    public void enableCalenderView(boolean enable) {
+        mAgendaView.enablePlaceholderForCalendar(enable);
+        mCalendarView.setVisibility(enable ? VISIBLE : GONE);
+        mAgendaView.findViewById(R.id.view_shadow).setVisibility(enable ? VISIBLE : GONE);
+    }
+
+    public void enableFloatingIndicator(boolean enable) {
+        mFloatingActionButton.setVisibility(enable ? VISIBLE : GONE);
     }
 
     // endregion
