@@ -15,10 +15,6 @@ public interface IDayItem {
 
     void setValue(int value);
 
-    boolean isToday();
-
-    void setToday(boolean today);
-
     boolean isSelected();
 
     void setSelected(boolean selected);
