@@ -28,6 +28,7 @@ public class CalendarManager {
 
     private Context mContext;
     private Locale mLocale;
+    private boolean showAllDates = true;
     private Calendar mToday = Calendar.getInstance();
     private SimpleDateFormat mWeekdayFormatter;
     private SimpleDateFormat mMonthHalfNameFormat;
@@ -180,7 +181,6 @@ public class CalendarManager {
     }
 
     public void loadEvents(List<CalendarEvent> eventList, CalendarEvent noEvent) {
-
         for (IWeekItem weekItem : getWeeks()) {
             for (IDayItem dayItem : weekItem.getDayItems()) {
                 boolean isEventForDay = false;
@@ -198,7 +198,7 @@ public class CalendarManager {
                         isEventForDay = true;
                     }
                 }
-                if (!isEventForDay) {
+                if (!isEventForDay && isShowAllDates()) {
                     Calendar dayInstance = Calendar.getInstance();
                     dayInstance.setTime(dayItem.getDate());
                     CalendarEvent copy = noEvent.copy();
@@ -238,13 +238,24 @@ public class CalendarManager {
         }
         cal.add(Calendar.DATE, offset);
 
-        Log.d(LOG_TAG, String.format("Buiding row week starting at %s", cal.getTime()));
-        for (int c = 0; c < 7; c++) {
+        if(isShowAllDates()) {
+            for (int c = 0; c < 7; c++) {
+                IDayItem dayItem = mCleanDay.copy();
+                dayItem.buildDayItemFromCal(cal);
+                dayItems.add(dayItem);
+                cal.add(Calendar.DATE, 1);
+            }
+        } else {
             IDayItem dayItem = mCleanDay.copy();
             dayItem.buildDayItemFromCal(cal);
-            dayItems.add(dayItem);
-            cal.add(Calendar.DATE, 1);
+            for (CalendarEvent event : getEvents()) {
+                if (DateHelper.isBetweenInclusive(dayItem.getDate(), event.getStartTime(), event.getEndTime())) {
+                    dayItems.add(dayItem);
+                    cal.add(Calendar.DATE, 1);
+                }
+            }
         }
+        Log.d(LOG_TAG, String.format("Buiding row week starting at %s", cal.getTime()));
 
         mDays.addAll(dayItems);
         return dayItems;
@@ -255,6 +266,14 @@ public class CalendarManager {
         setToday(Calendar.getInstance(mLocale));
         mWeekdayFormatter = new SimpleDateFormat(getContext().getString(R.string.day_name_format), mLocale);
         mMonthHalfNameFormat = new SimpleDateFormat(getContext().getString(R.string.month_half_name_format), locale);
+    }
+
+    public boolean isShowAllDates() {
+        return showAllDates;
+    }
+
+    public void setShowAllDates(boolean showAllDates) {
+        this.showAllDates = showAllDates;
     }
 
     // endregion

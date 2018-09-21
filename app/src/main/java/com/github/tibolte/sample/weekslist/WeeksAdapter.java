@@ -1,4 +1,20 @@
-package com.github.tibolte.agendacalendarview.calendar.weekslist;
+package com.github.tibolte.sample.weekslist;
+
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
+import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.github.tibolte.agendacalendarview.CalendarManager;
 import com.github.tibolte.agendacalendarview.R;
@@ -9,23 +25,6 @@ import com.github.tibolte.agendacalendarview.models.IWeekItem;
 import com.github.tibolte.agendacalendarview.utils.BusProvider;
 import com.github.tibolte.agendacalendarview.utils.DateHelper;
 import com.github.tibolte.agendacalendarview.utils.Events;
-
-import android.animation.Animator;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Typeface;
-import android.graphics.drawable.GradientDrawable;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -104,7 +103,7 @@ public class WeeksAdapter extends ViewAdapter<IWeekItem, WeeksAdapter.WeekViewHo
     }
 
     @Override
-    public void onBindViewHolder(WeekViewHolder weekViewHolder, int position) {
+    public void onBindViewHolder(@NonNull WeekViewHolder weekViewHolder, int position) {
         IWeekItem weekItem = mWeeksList.get(position);
         weekViewHolder.bindWeek(weekItem, mToday);
     }
@@ -136,7 +135,7 @@ public class WeeksAdapter extends ViewAdapter<IWeekItem, WeeksAdapter.WeekViewHo
 
         @Override
         public void onBind(IWeekItem item) {
-
+            bindWeek(item, mToday);
         }
 
         @SuppressLint("SetTextI18n")
@@ -145,14 +144,14 @@ public class WeeksAdapter extends ViewAdapter<IWeekItem, WeeksAdapter.WeekViewHo
 
             List<IDayItem> dayItems = weekItem.getDayItems();
 
-
             for (int c = 0; c < dayItems.size(); c++) {
                 final IDayItem dayItem = dayItems.get(c);
                 LinearLayout cellItem = mCells.get(c);
                 TextView txtDay = (TextView) cellItem.findViewById(R.id.view_day_day_label);
                 TextView txtMonth = (TextView) cellItem.findViewById(R.id.view_day_month_label);
                 View circleView = cellItem.findViewById(R.id.view_day_circle_selected);
-                cellItem.setOnClickListener(v->BusProvider.getInstance().send(new Events.DayClickedEvent(dayItem)));
+                cellItem.setOnClickListener(v->BusProvider.getInstance().send(new
+                        Events.DayClickedEvent(dayItem)));
 
                 txtMonth.setVisibility(View.GONE);
                 txtDay.setTextColor(mDayTextColor);
