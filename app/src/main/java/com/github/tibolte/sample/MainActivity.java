@@ -1,5 +1,11 @@
 package com.github.tibolte.sample;
 
+import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+
 import com.github.tibolte.agendacalendarview.AgendaCalendarView;
 import com.github.tibolte.agendacalendarview.CalendarManager;
 import com.github.tibolte.agendacalendarview.CalendarPickerController;
@@ -9,29 +15,25 @@ import com.github.tibolte.agendacalendarview.models.DayItem;
 import com.github.tibolte.agendacalendarview.models.IDayItem;
 import com.github.tibolte.agendacalendarview.models.IWeekItem;
 import com.github.tibolte.agendacalendarview.models.WeekItem;
-
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import com.github.tibolte.sample.weekslist.WeeksAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements CalendarPickerController {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
-    @Bind(R.id.activity_toolbar)
+    @BindView(R.id.activity_toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.agenda_calendar_view)
+    @BindView(R.id.agenda_calendar_view)
     AgendaCalendarView mAgendaCalendarView;
+    private WeeksAdapter mWeeksAdapter;
 
     // region Lifecycle methods
 
@@ -65,15 +67,20 @@ public class MainActivity extends AppCompatActivity implements CalendarPickerCon
         //////// This can be done once in another thread
         CalendarManager calendarManager = CalendarManager.getInstance(getApplicationContext());
         calendarManager.buildCal(minDate, maxDate, Locale.getDefault(), new DayItem(), new WeekItem());
+        calendarManager.setShowAllDates(false);
         calendarManager.loadEvents(eventList, new BaseCalendarEvent());
         ////////
 
         List<CalendarEvent> readyEvents = calendarManager.getEvents();
         List<IDayItem> readyDays = calendarManager.getDays();
         List<IWeekItem> readyWeeks = calendarManager.getWeeks();
-        mAgendaCalendarView.init(Locale.getDefault(), readyWeeks,readyDays,readyEvents,this);
-        mAgendaCalendarView.addEventRenderer(new DrawableEventRenderer());
-
+        mWeeksAdapter = new WeeksAdapter(this, calendarManager.getToday(),
+                this.getResources().getColor(R.color.blue_dark),
+                this.getResources().getColor(R.color.blue_selected),
+                this.getResources().getColor(R.color.orange_dark));
+        mAgendaCalendarView.initWithCustomAdapter(Locale.getDefault(),
+                readyWeeks,readyDays,readyEvents,this, mWeeksAdapter);
+        mAgendaCalendarView.enableFloatingIndicator(false);
     }
 
     // endregion

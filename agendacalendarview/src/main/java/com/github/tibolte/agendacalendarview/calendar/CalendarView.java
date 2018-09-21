@@ -7,21 +7,25 @@ import com.github.tibolte.agendacalendarview.calendar.weekslist.WeeksAdapter;
 import com.github.tibolte.agendacalendarview.models.CalendarEvent;
 import com.github.tibolte.agendacalendarview.models.IDayItem;
 import com.github.tibolte.agendacalendarview.models.IWeekItem;
+import com.github.tibolte.agendacalendarview.render.EventRenderer;
 import com.github.tibolte.agendacalendarview.utils.BusProvider;
 import com.github.tibolte.agendacalendarview.utils.DateHelper;
 import com.github.tibolte.agendacalendarview.utils.Events;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -55,6 +59,8 @@ public class CalendarView extends LinearLayout {
      */
     private int mCurrentListPosition;
 
+    private ViewAdapter viewAdapter;
+
     // region Constructors
 
     public CalendarView(Context context) {
@@ -66,7 +72,9 @@ public class CalendarView extends LinearLayout {
 
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.view_calendar, this, true);
+        if (inflater != null) {
+            inflater.inflate(R.layout.view_calendar, this, true);
+        }
 
         setOrientation(VERTICAL);
     }
@@ -144,6 +152,25 @@ public class CalendarView extends LinearLayout {
         scrollToDate(today, weeks);
     }
 
+    public void initWithCustomAdapter(CalendarManager calendarManager, ViewAdapter adapter) {
+        Calendar today = calendarManager.getToday();
+        Locale locale = calendarManager.getLocale();
+        SimpleDateFormat weekDayFormatter = calendarManager.getWeekdayFormatter();
+        List<IWeekItem> weeks = calendarManager.getWeeks();
+        setUpHeader(today, weekDayFormatter, locale);
+        viewAdapter = adapter;
+        setUpViewAdapter(today, weeks);
+        scrollToDate(today, weeks);
+    }
+
+    private void setUpViewAdapter(Calendar today, List<IWeekItem> weeks) {
+        if (viewAdapter != null) {
+            Log.d(LOG_TAG, "Setting adapter with today's calendar: " + today.toString());
+            mListViewWeeks.setAdapter(viewAdapter);
+            viewAdapter.updateWeeksItems(weeks);
+        }
+    }
+
     /**
      * Fired when the Agenda list view changes section.
      *
@@ -183,20 +210,26 @@ public class CalendarView extends LinearLayout {
     }
 
     private void updateItemAtPosition(int position) {
-        WeeksAdapter weeksAdapter = (WeeksAdapter) mListViewWeeks.getAdapter();
-        weeksAdapter.notifyItemChanged(position);
+        if(viewAdapter != null) {
+            ViewAdapter adapter = (ViewAdapter) mListViewWeeks.getAdapter();
+            adapter.notifyItemChanged(position);
+        } else {
+            WeeksAdapter weeksAdapter = (WeeksAdapter) mListViewWeeks.getAdapter();
+            weeksAdapter.notifyItemChanged(position);
+        }
     }
 
     /**
      * Creates a new adapter if necessary and sets up its parameters.
      */
-    private void setUpAdapter(Calendar today, List<IWeekItem> weeks, int dayTextColor, int currentDayTextColor, int pastDayTextColor) {
+    private void setUpAdapter(Calendar today, List<IWeekItem> weeks, int dayTextColor,
+                              int currentDayTextColor, int pastDayTextColor) {
         if (mWeeksAdapter == null) {
             Log.d(LOG_TAG, "Setting adapter with today's calendar: " + today.toString());
             mWeeksAdapter = new WeeksAdapter(getContext(), today, dayTextColor, currentDayTextColor, pastDayTextColor);
             mListViewWeeks.setAdapter(mWeeksAdapter);
+            mWeeksAdapter.updateWeeksItems(weeks);
         }
-        mWeeksAdapter.updateWeeksItems(weeks);
     }
 
     private void setUpHeader(Calendar today, SimpleDateFormat weekDayFormatter, Locale locale) {
@@ -271,4 +304,8 @@ public class CalendarView extends LinearLayout {
     }
 
     // endregion
+
+    public void setViewAdapter(ViewAdapter t) {
+        this.viewAdapter = t;
+    }
 }
